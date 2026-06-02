@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Calendar, User, Clock, ArrowUpRight } from 'lucide-react'
+import { Calendar, User, ArrowUpRight } from 'lucide-react'
 import { Author } from '@/types'
 
 interface BlogCardProps {
@@ -58,7 +58,7 @@ export default function BlogCard({
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover filter grayscale group-hover:grayscale-0 transition-all duration-300"
-              priority={index === 0} // prioritas untuk card pertama
+              priority={index === 0}
             />
             {/* Badge Waktu Baca */}
             <div
@@ -89,13 +89,13 @@ export default function BlogCard({
               </span>
             </div>
 
-            {/* Judul Artikel */}
-            <h3
+            {/* Judul Artikel - diubah dari h3 menjadi h2 untuk heading order */}
+            <h2
               id={`blog-title-${slug}`}
               className="font-sans font-black text-lg sm:text-xl text-black leading-tight mb-2 line-clamp-2 group-hover:text-primary-600 group-hover:underline decoration-2 transition-colors"
             >
               {title}
-            </h3>
+            </h2>
 
             {/* Excerpt */}
             <p className="font-sans font-bold text-navy-600 text-xs sm:text-sm line-clamp-3 leading-relaxed">

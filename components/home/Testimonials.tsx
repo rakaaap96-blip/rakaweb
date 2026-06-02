@@ -83,6 +83,7 @@ function TestimonialCard({ item, index }: { item: typeof testimonials[0]; index:
         <div className="flex items-center justify-between mb-3">
           <div
             className="flex gap-0.5 bg-primary-50 border-2 border-black px-2 py-0.5 text-[10px] font-black"
+            role="group"
             aria-label={`Rating ${item.rating} dari 5 bintang`}
           >
             {[...Array(item.rating)].map((_, i) => (
@@ -90,7 +91,7 @@ function TestimonialCard({ item, index }: { item: typeof testimonials[0]; index:
             ))}
           </div>
           <div className="w-7 h-7 bg-primary-500 border-2 border-black flex items-center justify-center text-white font-black shrink-0" aria-hidden="true">
-            <ArrowUpRight size={12} />
+            <ArrowUpRight size={12} aria-hidden="true" />
           </div>
         </div>
 
