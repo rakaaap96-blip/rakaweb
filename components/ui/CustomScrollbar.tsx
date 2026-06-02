@@ -141,7 +141,7 @@ export default function CustomScrollbar() {
       ref={trackRef}
       style={{
         position: 'fixed',
-        right: '10px',
+        right: '20px',
         top: '50%',
         transform: 'translateY(-50%)',
         width: '16px',
