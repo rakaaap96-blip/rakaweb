@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 
 export default function CustomScrollbar() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
   const [thumbHeight, setThumbHeight] = useState(50);
   const [thumbTop, setThumbTop] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
@@ -11,13 +11,20 @@ export default function CustomScrollbar() {
   const trackRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
-  const rafRef = useRef<number | null>(null);
+  const rafId = useRef<number | null>(null);
+  const ticking = useRef(false);
 
+  // Deteksi apakah device adalah desktop (non-mobile, non-touch)
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const checkIsDesktop = () => {
+      // Tidak render di mobile (lebar < 768px) atau device touch
+      const isMobileWidth = window.innerWidth < 768;
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      setShouldRender(!isMobileWidth && !isTouchDevice);
+    };
+    checkIsDesktop();
+    window.addEventListener('resize', checkIsDesktop);
+    return () => window.removeEventListener('resize', checkIsDesktop);
   }, []);
 
   const showScrollbar = useCallback(() => {
@@ -29,8 +36,8 @@ export default function CustomScrollbar() {
   }, []);
 
   const updateThumb = useCallback(() => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(() => {
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    rafId.current = requestAnimationFrame(() => {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
       const scrollTop = window.scrollY;
@@ -55,9 +62,15 @@ export default function CustomScrollbar() {
 
   const handleWheel = useCallback((e: WheelEvent) => {
     e.preventDefault();
-    const delta = e.deltaY || e.deltaX;
-    window.scrollBy({ top: delta, behavior: 'auto' });
-    showScrollbar();
+    if (!ticking.current) {
+      requestAnimationFrame(() => {
+        const delta = e.deltaY || e.deltaX;
+        window.scrollBy({ top: delta, behavior: 'auto' });
+        showScrollbar();
+        ticking.current = false;
+      });
+      ticking.current = true;
+    }
   }, [showScrollbar]);
 
   const handleThumbDrag = useCallback((e: React.MouseEvent) => {
@@ -73,15 +86,17 @@ export default function CustomScrollbar() {
 
     const onMouseMove = (moveEvent: MouseEvent) => {
       if (!isDragging.current) return;
-      let newTop = startTop + (moveEvent.clientY - startY);
-      newTop = Math.min(Math.max(0, newTop), maxThumbTop);
-      setThumbTop(newTop);
-      const scrollPercent = newTop / maxThumbTop;
-      window.scrollTo({
-        top: scrollPercent * (documentHeight - windowHeight),
-        behavior: 'auto',
+      requestAnimationFrame(() => {
+        let newTop = startTop + (moveEvent.clientY - startY);
+        newTop = Math.min(Math.max(0, newTop), maxThumbTop);
+        setThumbTop(newTop);
+        const scrollPercent = newTop / maxThumbTop;
+        window.scrollTo({
+          top: scrollPercent * (documentHeight - windowHeight),
+          behavior: 'auto',
+        });
+        showScrollbar();
       });
-      showScrollbar();
     };
 
     const onMouseUp = () => {
@@ -96,7 +111,7 @@ export default function CustomScrollbar() {
   }, [thumbTop, thumbHeight, showScrollbar]);
 
   useEffect(() => {
-    if (isMobile) return;
+    if (!shouldRender) return;
 
     updateThumb();
     const onWindowScroll = () => {
@@ -114,11 +129,12 @@ export default function CustomScrollbar() {
       window.removeEventListener('resize', updateThumb);
       if (track) track.removeEventListener('wheel', handleWheel);
       if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
     };
-  }, [isMobile, updateThumb, showScrollbar, handleWheel]);
+  }, [shouldRender, updateThumb, showScrollbar, handleWheel]);
 
-  if (isMobile) return null;
+  // Tidak render di mobile atau touch device
+  if (!shouldRender) return null;
 
   return (
     <div
@@ -128,7 +144,7 @@ export default function CustomScrollbar() {
         right: '10px',
         top: '50%',
         transform: 'translateY(-50%)',
-        width: '18px',
+        width: '16px',
         height: '50%',
         backgroundColor: '#f0f0f0',
         border: '2px solid black',

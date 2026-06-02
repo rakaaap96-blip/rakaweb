@@ -85,3 +85,13 @@
   animation: marquee 25s linear infinite;
   width: fit-content;
 }
+
+@media (max-width: 768px) {
+  .animate-marquee {
+    animation: none;
+  }
+  [data-animate-on-scroll] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
