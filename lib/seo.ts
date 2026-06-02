@@ -2,7 +2,7 @@
 import { Metadata } from 'next'
 import { MetadataProps } from '@/types'
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rakaweb.vercel.app').replace(/\/$/, '')
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app').replace(/\/$/, '')
 const SITE_NAME = 'RakaWeb'
 const SITE_DESCRIPTION = 'Jasa pembuatan website profesional di Bogor. Solusi website UMKM, company profile, dan ecommerce dengan harga terjangkau.'
 const SITE_KEYWORDS = [

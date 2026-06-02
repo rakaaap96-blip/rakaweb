@@ -18,7 +18,7 @@ export default function KarirPage() {
     '@type': 'WebPage',
     name: 'Karir RakaWeb',
     description: 'Informasi lowongan pekerjaan di RakaWeb. Saat ini tidak ada lowongan terbuka.',
-    url: 'https://rakaweb.vercel.app/karir',
+    url: 'https://rakawebpro.vercel.app/karir',
     mainEntity: {
       '@type': 'JobPosting',
       title: 'Tidak ada lowongan terbuka',
@@ -28,7 +28,7 @@ export default function KarirPage() {
       hiringOrganization: {
         '@type': 'Organization',
         name: 'RakaWeb',
-        sameAs: 'https://rakaweb.vercel.app',
+        sameAs: 'https://rakawebpro.vercel.app/',
       },
       jobLocation: {
         '@type': 'Place',

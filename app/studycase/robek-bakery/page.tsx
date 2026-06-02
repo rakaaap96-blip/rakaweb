@@ -17,7 +17,7 @@ export default function StudyCaseRobekBakery() {
     '@type': 'CreativeWork',
     name: 'Robek Bakery - Website Artisan Bakery',
     description: 'Membangun kepercayaan pelanggan melalui desain website artisan yang menjual cerita sebelum menjual roti.',
-    url: 'https://rakaweb.vercel.app/studycase/robek-bakery',
+    url: 'https://rakawebpro.vercel.app/studycase/robek-bakery',
     creator: { '@type': 'Organization', name: 'RakaWeb' },
     dateCreated: '2026',
   }

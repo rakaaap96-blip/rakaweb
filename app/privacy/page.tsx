@@ -13,7 +13,7 @@ export default function PrivacyPage() {
     '@type': 'WebPage',
     name: 'Kebijakan Privasi RakaWeb',
     description: 'Kebijakan privasi penggunaan website dan layanan RakaWeb. Bagaimana kami mengumpulkan, menggunakan, dan melindungi data Anda.',
-    url: 'https://rakaweb.vercel.app/privacy',
+    url: 'https://rakawebpro.vercel.app/privacy',
     mainEntity: {
       '@type': 'PrivacyPolicy',
       name: 'Kebijakan Privasi RakaWeb',

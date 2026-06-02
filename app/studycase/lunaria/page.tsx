@@ -17,7 +17,7 @@ export default function StudyCaseLunaria() {
     '@type': 'CreativeWork',
     name: 'Lunaria - Luxury Bridal Couture Website',
     description: 'Merancang pengalaman bridal eksklusif yang membangun hasrat sebelum konsultasi.',
-    url: 'https://rakaweb.vercel.app/studycase/lunaria',
+    url: 'https://rakawebpro.vercel.app/studycase/lunaria',
     creator: { '@type': 'Organization', name: 'RakaWeb' },
     dateCreated: '2025',
   }

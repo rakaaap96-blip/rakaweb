@@ -13,7 +13,7 @@ export default function TermsPage() {
     '@type': 'WebPage',
     name: 'Syarat & Ketentuan Layanan RakaWeb',
     description: 'Syarat dan ketentuan penggunaan layanan jasa pembuatan website dari RakaWeb.',
-    url: 'https://rakaweb.vercel.app/terms',
+    url: 'https://rakawebpro.vercel.app/terms',
     mainEntity: {
       '@type': 'TermsOfService',
       name: 'Syarat & Ketentuan RakaWeb',

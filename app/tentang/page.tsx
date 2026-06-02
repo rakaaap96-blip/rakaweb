@@ -45,7 +45,7 @@ export default function TentangPage() {
     '@type': 'AboutPage',
     name: 'Tentang RakaWeb - Jasa Pembuatan Website Premium',
     description: 'RakaWeb adalah penyedia jasa pembuatan website premium berbasis business problem solving. Kami menolak template instan dan fokus pada performa, konversi, dan SEO.',
-    url: 'https://rakaweb.vercel.app/tentang',
+    url: 'https://rakawebpro.vercel.app/tentang',
     mainEntity: {
       '@type': 'Organization',
       name: 'RakaWeb',

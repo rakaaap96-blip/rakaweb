@@ -18,7 +18,7 @@ export default function StudyCaseCoksu() {
     '@type': 'CreativeWork',
     name: 'COKSU - Futuristic Chocolate Drink Brand Experience',
     description: 'Mengubah minuman sehari-hari menjadi pengalaman brand futuristik.',
-    url: 'https://rakaweb.vercel.app/studycase/coksu',
+    url: 'https://rakawebpro.vercel.app/studycase/coksu',
     creator: { '@type': 'Organization', name: 'RakaWeb' },
     dateCreated: '2025',
   }

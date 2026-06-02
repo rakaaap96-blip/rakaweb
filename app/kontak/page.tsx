@@ -87,7 +87,7 @@ export default function KontakPage() {
     '@type': 'ContactPage',
     name: 'Hubungi RakaWeb',
     description: 'Konsultasikan kebutuhan website Anda secara gratis melalui formulir, WhatsApp, email, atau telepon.',
-    url: 'https://rakaweb.vercel.app/kontak',
+    url: 'https://rakawebpro.vercel.app/kontak',
     mainEntity: {
       '@type': 'Organization',
       name: 'RakaWeb',

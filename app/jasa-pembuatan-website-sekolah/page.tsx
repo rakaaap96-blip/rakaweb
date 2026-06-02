@@ -28,7 +28,7 @@ export default function SchoolServicePage() {
     provider: {
       '@type': 'LocalBusiness',
       name: 'RakaWeb',
-      url: 'https://rakaweb.vercel.app',
+      url: 'https://rakawebpro.vercel.app/',
     },
     offers: data.pricing.map((plan) => ({
       '@type': 'Offer',

@@ -37,7 +37,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
   const source = fs.readFileSync(filePath, 'utf-8')
   const { content, data } = matter(source)
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rakaweb.vercel.app'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app/'
   const pageUrl = `${baseUrl}/blog/${slug}`
 
   let authors = []

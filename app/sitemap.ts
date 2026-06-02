@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { getAllBlogSlugs, getBlogPost } from '@/lib/mdx'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://rakaweb.vercel.app'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
