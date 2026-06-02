@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="theme-color" content="#4169E1" />
-        <meta name="google-site-verification" content="google981a924a0f89d79b" />
+        <meta name="google-site-verification" content="google981a924a0f89d79b.html" />
         {schemas.map((schema, idx) => (
           <Script
             key={idx}
