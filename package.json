@@ -8,6 +8,15 @@
     "start": "next start",
     "lint": "eslint"
   },
+
+  "browserslist": [
+    "chrome >= 90",
+    "firefox >= 90",
+    "safari >= 15",
+    "edge >= 90",
+    "not dead"
+  ],
+  
   "dependencies": {
     "@next/third-parties": "^16.2.7",
     "@tailwindcss/typography": "^0.5.19",
