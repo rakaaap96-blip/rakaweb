@@ -48,7 +48,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID
-  const gscVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 
   return (
     <html lang="id" className="scroll-smooth" data-scroll-behavior="smooth">
@@ -56,9 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="theme-color" content="#4169E1" />
-        {gscVerification && (
-          <meta name="google-site-verification" content={gscVerification} />
-        )}
+        <meta name="google-site-verification" content="google981a924a0f89d79b" />
         {schemas.map((schema, idx) => (
           <Script
             key={idx}
