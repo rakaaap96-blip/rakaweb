@@ -30,7 +30,7 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'spring' as const,   // Perbaikan: as const
+      type: 'spring' as const,
       stiffness: 200,
       damping: 20,
     },
@@ -129,7 +129,7 @@ export default function Hero() {
             viewport={{ once: true, amount: 0.2 }}
           >
             
-            {/* Kotak 1: Tech Stack */}
+            {/* Kotak 1: Tech Stack - ubah h3 menjadi h2 */}
             <motion.div
               variants={cardVariants}
               whileHover={{ 
@@ -153,7 +153,7 @@ export default function Hero() {
                 </div>
               </div>
               <div>
-                <h3 className="font-sans font-black text-lg uppercase tracking-tight mb-2 group-hover:text-primary-600 transition-colors">Sistem Tech Stack Modern</h3>
+                <h2 className="font-sans font-black text-lg uppercase tracking-tight mb-2 group-hover:text-primary-600 transition-colors">Sistem Tech Stack Modern</h2>
                 <p className="font-sans text-xs sm:text-sm font-bold text-navy-600 leading-snug">
                   Kami membangun ekosistem digital performa tinggi menggunakan framework mutakhir untuk kecepatan maksimal.
                 </p>
@@ -165,11 +165,11 @@ export default function Hero() {
                 <SiTailwindcss size={24} className="text-[#38BDF8] group-hover:scale-110 transition-transform" aria-hidden="true" />
               </div>
               <div className="mt-3 text-xs font-mono font-bold text-navy-400 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Info size={12} /> Klik untuk detail
+                <Info size={12} aria-hidden="true" /> Klik untuk detail
               </div>
             </motion.div>
 
-            {/* Kotak 2: Kecepatan & Responsif */}
+            {/* Kotak 2: Kecepatan & Responsif - ubah h3 menjadi h2 */}
             <motion.div
               variants={cardVariants}
               whileHover={{ 
@@ -191,17 +191,17 @@ export default function Hero() {
                 <ArrowDownRight size={20} className="text-navy-400 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform" aria-hidden="true" />
               </div>
               <div>
-                <h3 className="font-sans font-black text-lg uppercase tracking-tight mb-1 group-hover:text-primary-600 transition-colors">Cepat & Responsif</h3>
+                <h2 className="font-sans font-black text-lg uppercase tracking-tight mb-1 group-hover:text-primary-600 transition-colors">Cepat & Responsif</h2>
                 <p className="font-sans text-xs sm:text-sm font-bold text-navy-700 leading-snug">
                   Website otomatis optimal diakses sempurna via smartphone, tablet, maupun desktop komputer tanpa kendala layout.
                 </p>
               </div>
               <div className="mt-3 text-xs font-mono font-bold text-navy-400 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Info size={12} /> Klik untuk detail
+                <Info size={12} aria-hidden="true" /> Klik untuk detail
               </div>
             </motion.div>
 
-            {/* Kotak 3: Maintenance */}
+            {/* Kotak 3: Maintenance - ubah h3 menjadi h2 */}
             <motion.div
               variants={cardVariants}
               whileHover={{ 
@@ -223,17 +223,17 @@ export default function Hero() {
                 <ArrowDownRight size={20} className="text-navy-400 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform" aria-hidden="true" />
               </div>
               <div>
-                <h3 className="font-sans font-black text-lg uppercase tracking-tight mb-1 group-hover:text-primary-600 transition-colors">Full Maintenance</h3>
+                <h2 className="font-sans font-black text-lg uppercase tracking-tight mb-1 group-hover:text-primary-600 transition-colors">Full Maintenance</h2>
                 <p className="font-sans text-xs sm:text-sm font-bold text-navy-600 leading-snug">
                   Jaminan garansi penuh pasca-pembuatan sistem. Kami mengawal keamanan server dan pembaruan berkala website Anda.
                 </p>
               </div>
               <div className="mt-3 text-xs font-mono font-bold text-navy-400 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Info size={12} /> Klik untuk detail
+                <Info size={12} aria-hidden="true" /> Klik untuk detail
               </div>
             </motion.div>
 
-            {/* Kotak 4: SEO */}
+            {/* Kotak 4: SEO - ubah h3 menjadi h2 */}
             <motion.div
               variants={cardVariants}
               whileHover={{ 
@@ -253,7 +253,7 @@ export default function Hero() {
                   <TrendingUp size={24} />
                 </div>
                 <div>
-                  <h3 className="font-sans font-black text-lg uppercase tracking-tight group-hover:text-primary-600 transition-colors">Optimasi SEO Google</h3>
+                  <h2 className="font-sans font-black text-lg uppercase tracking-tight group-hover:text-primary-600 transition-colors">Optimasi SEO Google</h2>
                   <p className="font-sans text-xs sm:text-sm font-bold text-navy-700 leading-snug mt-0.5">
                     Struktur kode bersih yang dirancang khusus ramah algoritma mesin pencari demi mendorong peringkat bisnis Anda ke halaman utama Google.
                   </p>
@@ -263,7 +263,7 @@ export default function Hero() {
                 Target Pasar Tepat
               </div>
               <div className="sm:hidden text-xs font-mono font-bold text-navy-400 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Info size={12} /> Klik untuk detail
+                <Info size={12} aria-hidden="true" /> Klik untuk detail
               </div>
             </motion.div>
           </motion.div>
