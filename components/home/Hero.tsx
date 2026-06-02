@@ -123,7 +123,7 @@ export default function Hero() {
                   <h2 className="font-sans font-black text-lg uppercase tracking-tight mb-2">Sistem Tech Stack Modern</h2>
                   <p className="font-sans text-xs sm:text-sm font-bold text-navy-600 leading-snug">Kami membangun ekosistem digital performa tinggi menggunakan framework mutakhir untuk kecepatan maksimal.</p>
                 </div>
-                <div className="flex gap-3 pt-4 mt-4 border-t-2 border-black" aria-label="Teknologi yang digunakan: Next.js, React, TypeScript, Tailwind CSS">
+                <div className="flex gap-3 pt-4 mt-4 border-t-2 border-black" role="group" aria-label="Teknologi yang digunakan: Next.js, React, TypeScript, Tailwind CSS">
                   <SiNextdotjs size={24} className="text-black" aria-hidden="true" />
                   <SiReact size={24} className="text-[#61DAFB]" aria-hidden="true" />
                   <SiTypescript size={24} className="text-[#3178C6]" aria-hidden="true" />
@@ -173,7 +173,7 @@ export default function Hero() {
     )
   }
 
-  // VERSI DESKTOP: Dengan animasi motion (sama seperti kode Anda sebelumnya)
+  // VERSI DESKTOP: Dengan animasi motion
   return (
     <section
       className="relative -mt-16 bg-primary-500 text-navy-900 overflow-hidden border-b-8 border-black px-4"
@@ -249,7 +249,7 @@ export default function Hero() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
           >
-            {/* Kotak 1 */}
+            {/* Kotak 1: Tech Stack */}
             <motion.div
               variants={cardVariants}
               whileHover={{ y: -8, transition: { type: 'spring', stiffness: 300 }, boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
@@ -268,7 +268,7 @@ export default function Hero() {
                 <h2 className="font-sans font-black text-lg uppercase tracking-tight mb-2 group-hover:text-primary-600 transition-colors">Sistem Tech Stack Modern</h2>
                 <p className="font-sans text-xs sm:text-sm font-bold text-navy-600 leading-snug">Kami membangun ekosistem digital performa tinggi menggunakan framework mutakhir untuk kecepatan maksimal.</p>
               </div>
-              <div className="flex gap-3 pt-4 mt-4 border-t-2 border-black" aria-label="Teknologi yang digunakan: Next.js, React, TypeScript, Tailwind CSS">
+              <div className="flex gap-3 pt-4 mt-4 border-t-2 border-black" role="group" aria-label="Teknologi yang digunakan: Next.js, React, TypeScript, Tailwind CSS">
                 <SiNextdotjs size={24} className="text-black group-hover:scale-110 transition-transform" aria-hidden="true" />
                 <SiReact size={24} className="text-[#61DAFB] group-hover:scale-110 transition-transform" aria-hidden="true" />
                 <SiTypescript size={24} className="text-[#3178C6] group-hover:scale-110 transition-transform" aria-hidden="true" />
@@ -277,7 +277,7 @@ export default function Hero() {
               <div className="mt-3 text-xs font-mono font-bold text-navy-400 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><Info size={12} aria-hidden="true" /> Klik untuk detail</div>
             </motion.div>
 
-            {/* Kotak 2 */}
+            {/* Kotak 2: Kecepatan & Responsif */}
             <motion.div
               variants={cardVariants}
               whileHover={{ y: -8, transition: { type: 'spring', stiffness: 300 }, boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
@@ -299,7 +299,7 @@ export default function Hero() {
               <div className="mt-3 text-xs font-mono font-bold text-navy-400 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><Info size={12} aria-hidden="true" /> Klik untuk detail</div>
             </motion.div>
 
-            {/* Kotak 3 */}
+            {/* Kotak 3: Maintenance */}
             <motion.div
               variants={cardVariants}
               whileHover={{ y: -8, transition: { type: 'spring', stiffness: 300 }, boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
@@ -321,7 +321,7 @@ export default function Hero() {
               <div className="mt-3 text-xs font-mono font-bold text-navy-400 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><Info size={12} aria-hidden="true" /> Klik untuk detail</div>
             </motion.div>
 
-            {/* Kotak 4 */}
+            {/* Kotak 4: SEO */}
             <motion.div
               variants={cardVariants}
               whileHover={{ y: -8, transition: { type: 'spring', stiffness: 300 }, boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
