@@ -38,7 +38,7 @@ export default function ScrollProgress() {
 
   return (
     <div
-      className="fixed top-0 left-0 w-full h-2 bg-white border-b-2 border-black z-9999"
+      className="fixed top-0 left-0 w-full h-2 bg-white border-b-2 border-black z-[9999]"
       aria-hidden="true"
       role="presentation"
     >

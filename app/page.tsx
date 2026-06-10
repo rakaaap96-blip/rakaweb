@@ -22,20 +22,7 @@ export default function Home() {
         <CTA />
       </main>
 
-      {/* JSON-LD tetap bisa ditaruh di sini karena ini Server Component */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": "Nama Perusahaan",
-            "url": "https://websiteanda.com",
-            "description": "Jasa pembuatan website profesional...",
-            "priceRange": "Rp500rb - Rp50jt"
-          })
-        }}
-      />
+      
     </>
   )
 }

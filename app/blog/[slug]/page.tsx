@@ -37,7 +37,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
   const source = fs.readFileSync(filePath, 'utf-8')
   const { content, data } = matter(source)
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app/'
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app').replace(/\/$/, '')
   const pageUrl = `${baseUrl}/blog/${slug}`
 
   let authors = []
@@ -54,12 +54,14 @@ export default async function BlogDetailPage({ params }: PageProps) {
     authors = [{ name: 'Admin', role: 'Administrator', avatar: '', bio: '' }]
   }
 
-  const readingTime = data.readingTime || Math.ceil((content.split(/\s+/).length / 200)) || 5
+  const wordCount = content.split(/\s+/).length
+  const calculatedMinutes = Math.ceil(wordCount / 200)
+  const readingTime = data.readingTime ?? (calculatedMinutes > 0 ? calculatedMinutes : 5)
   const category = data.category || 'Artikel'
   const tags = data.tags || []
   const title = data.title || 'Artikel'
   const date = data.date ? new Date(data.date).toLocaleDateString('id-ID') : 'Tanggal tidak tersedia'
-  const image = data.image || '/images/blog/author/rakaaauthor.avif'
+  const image = data.image || '/images/blog/placeholder.avif'
 
   const jsonLd = {
     '@context': 'https://schema.org',

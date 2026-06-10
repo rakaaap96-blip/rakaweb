@@ -1,5 +1,5 @@
 // app/layout.tsx
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
@@ -13,7 +13,6 @@ import {
   generateSchemaService
 } from '@/lib/seo'
 import { Analytics } from '@vercel/analytics/react'
-import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import ScrollToTopWrapper from '@/components/ScrollToTopWrapper'
 import SkipLink from '@/components/ui/SkipLink'
 import CustomScrollbar from '@/components/ui/CustomScrollbar'
@@ -36,6 +35,13 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || 'google981a924a0f89d79b',
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#4169E1',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -51,44 +57,62 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="id" className="scroll-smooth" data-scroll-behavior="smooth">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta name="theme-color" content="#4169E1" />
-        <meta name="google-site-verification" content="google981a924a0f89d79b" />
+      <body className={inter.className}>
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+
         {schemas.map((schema, idx) => (
-          <Script
+          <script
             key={idx}
             id={`schema-${idx}`}
             type="application/ld+json"
-            strategy="afterInteractive"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
           />
         ))}
-      </head>
-      <body className={inter.className}>
         <SkipLink />
         <Navbar />
         <main id="main-content" className="pt-16" tabIndex={-1}>
           {children}
         </main>
         <Footer />
-        <Analytics />
+        {process.env.NEXT_PUBLIC_VERCEL_ENV && <Analytics />}
         <ScrollToTopWrapper />
         <CustomScrollbar />
-        {gtmId && (
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-              height="0"
-              width="0"
-              style={{ display: 'none', visibility: 'hidden' }}
+
+        {gaId && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="lazyOnload"
             />
-          </noscript>
+            <Script id="google-analytics" strategy="lazyOnload">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}');
+              `}
+            </Script>
+          </>
+        )}
+        {gtmId && (
+          <>
+            <Script id="gtm" strategy="lazyOnload">
+              {`
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');
+              `}
+            </Script>
+            <noscript>
+              <iframe
+                src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+                height="0"
+                width="0"
+                style={{ display: 'none', visibility: 'hidden' }}
+              />
+            </noscript>
+          </>
         )}
       </body>
-      {gaId && <GoogleAnalytics gaId={gaId} />}
-      {gtmId && <GoogleTagManager gtmId={gtmId} />}
     </html>
   )
 }

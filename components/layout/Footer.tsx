@@ -3,6 +3,11 @@ import { Mail } from 'lucide-react'
 import { FaTiktok, FaWhatsapp } from 'react-icons/fa'
 import Container from '@/components/ui/Container'
 
+// ========== MUDAH MENGUBAH KOORDINAT MAP ==========
+const MAP_LAT = -6.441006   // Ganti dengan latitude yang diinginkan
+const MAP_LNG = 106.939880  // Ganti dengan longitude yang diinginkan
+// =================================================
+
 const footerLinks = {
   Perusahaan: [
     { name: 'Tentang Kami', href: '/tentang' },
@@ -15,12 +20,14 @@ const footerLinks = {
     { name: 'Website Bisnis', href: '/jasa-pembuatan-website-company-profile' },
     { name: 'Website Sekolah', href: '/jasa-pembuatan-website-sekolah' },
   ],
-  Bantuan: [
-    { name: 'FAQ', href: '/faq' },
-    { name: 'Kebijakan Privasi', href: '/privacy' },
-    { name: 'Syarat & Ketentuan', href: '/terms' },
-  ],
 }
+
+// Link bantuan yang akan diletakkan di kanan bawah footer
+const bantuanLinks = [
+  { name: 'FAQ', href: '/faq' },
+  { name: 'Kebijakan Privasi', href: '/privacy' },
+  { name: 'Syarat & Ketentuan', href: '/terms' },
+]
 
 const socialLinks = [
   { icon: FaTiktok, href: 'https://tiktok.com/rakaweb', label: 'Tiktok' },
@@ -35,11 +42,11 @@ export default function Footer() {
       aria-labelledby="footer-heading"
     >
       <Container>
-        {/* Heading tersembunyi untuk aksesibilitas landmark */}
         <h2 id="footer-heading" className="sr-only">
           Informasi footer RakaWeb
         </h2>
 
+        {/* Grid: Brand, Perusahaan, Layanan, Google Maps */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
           <div>
@@ -71,7 +78,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Links Sections */}
+          {/* Perusahaan & Layanan (dari footerLinks) */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
               <h3 className="font-sans font-black text-lg uppercase tracking-tight text-black mb-4 border-b-2 border-black inline-block">
@@ -91,13 +98,46 @@ export default function Footer() {
               </ul>
             </div>
           ))}
+
+          {/* Google Maps Placeholder (bekas kolom Bantuan) */}
+          <div>
+            <h3 className="font-sans font-black text-lg uppercase tracking-tight text-black mb-4 border-b-2 border-black inline-block">
+              Lokasi Kami
+            </h3>
+            <div className="border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] overflow-hidden bg-gray-100">
+              <iframe
+                title="Google Maps lokasi RakaWeb"
+                width="100%"
+                height="200"
+                style={{ border: 0 }}
+                loading="lazy"
+                allowFullScreen
+                src={`https://maps.google.com/maps?q=${MAP_LAT},${MAP_LNG}&z=15&output=embed`}
+              ></iframe>
+            </div>
+            <p className="text-xs text-navy-700 mt-2 font-sans">
+              Jl. Raya Narogong Kp. Kembang Kuning <br/> Ds. Kembang Kuning Rt 014/004 No.51 <br/> Kec.klapanunggal Kab. bogor
+            </p>
+          </div>
         </div>
 
-        {/* Copyright */}
-        <div className="border-t-4 border-black pt-6 text-center">
+        {/* Baris bawah: kiri "RakaWeb 2026" | kanan link bantuan */}
+        <div className="border-t-4 border-black pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="font-mono font-black text-xs uppercase tracking-wider text-black">
-            &copy; {new Date().getFullYear()} RakaWeb. All rights reserved.
+            © 2026 RakaWeb. All rights reserved.
           </p>
+          <ul className="flex flex-wrap gap-4 justify-center">
+            {bantuanLinks.map((link) => (
+              <li key={link.name}>
+                <Link
+                  href={link.href}
+                  className="font-sans font-bold text-navy-700 hover:text-black hover:underline decoration-2 underline-offset-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 focus:text-black"
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </footer>

@@ -152,6 +152,7 @@ export default function Navbar() {
                 fill
                 sizes="(max-width: 768px) 40px, 48px"
                 className="object-cover"
+                priority
               />
             </div>
           </Link>

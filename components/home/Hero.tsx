@@ -12,7 +12,6 @@ import {
   SiTypescript,
 } from 'react-icons/si'
 
-// Variants untuk animasi staggered children (DESKTOP ONLY)
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
