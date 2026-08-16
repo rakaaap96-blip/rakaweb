@@ -2,15 +2,40 @@
 
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ClipboardList, Palette, Code, Rocket } from 'lucide-react'
+import { ClipboardList, Palette, Code, Rocket, ArrowRight } from 'lucide-react'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 import Container from '@/components/ui/Container'
+import Button from '@/components/ui/Button'
 
 const steps = [
-  { icon: ClipboardList, title: '1. Konsultasi', description: 'Diskusikan kebutuhan dan tujuan website Anda dengan tim kami.' },
-  { icon: Palette, title: '2. Desain', description: 'Kami buatkan mockup design sesuai brand dan preferensi Anda.' },
-  { icon: Code, title: '3. Development', description: 'Pengembangan website dengan teknologi modern dan SEO-friendly.' },
-  { icon: Rocket, title: '4. Launch', description: 'Website live dan siap digunakan. Kami berikan support penuh.' },
+  {
+    icon: ClipboardList,
+    title: '1. Konsultasi',
+    time: 'Hari 1 • Gratis',
+    description:
+      'Diskusikan kebutuhan, tujuan, dan budget website Anda. Kami bantu rekomendasi paket yang paling pas.',
+  },
+  {
+    icon: Palette,
+    title: '2. Desain',
+    time: '3-5 Hari • Revisi tanpa batas',
+    description:
+      'Mockup desain sesuai brand dan preferensi Anda. Revisi sampai Anda puas sebelum masuk pengembangan.',
+  },
+  {
+    icon: Code,
+    title: '3. Development',
+    time: '1-2 Minggu • Update tiap pekan',
+    description:
+      'Pengembangan website dengan teknologi modern dan SEO-friendly. Anda mendapat update progres setiap pekan.',
+  },
+  {
+    icon: Rocket,
+    title: '4. Launch',
+    time: 'Garansi 1 bulan',
+    description:
+      'Website live dan siap digunakan. Kami dampingi setelah launch dan berikan support penuh.',
+  },
 ]
 
 export default function Workflow() {
@@ -68,6 +93,12 @@ export default function Workflow() {
                   <h3 className="font-sans font-black text-xl uppercase tracking-tight mb-3">
                     {step.title}
                   </h3>
+                  <div
+                    className="inline-block px-2 py-0.5 mb-3 bg-yellow-300 border-2 border-black font-mono font-black text-[10px] uppercase tracking-wider"
+                    aria-label={`Estimasi waktu: ${step.time}`}
+                  >
+                    {step.time}
+                  </div>
                   <p className="font-sans font-bold text-navy-600 text-sm leading-relaxed grow">
                     {step.description}
                   </p>
@@ -76,6 +107,25 @@ export default function Workflow() {
             )
           })}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.4 }}
+          className="mt-14 text-center"
+        >
+          <Button
+            href="/kontak"
+            size="lg"
+            icon={<ArrowRight size={18} aria-hidden="true" />}
+            className="bg-primary-500 text-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-300 hover:text-black hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all font-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black focus:ring-offset-white"
+          >
+            Mulai Langkah Pertama — Konsultasi Gratis
+          </Button>
+          <p className="mt-3 font-mono font-bold text-xs uppercase tracking-wider text-navy-500">
+            Langkah 1 gratis & tanpa komitmen
+          </p>
+        </motion.div>
       </Container>
     </section>
   )

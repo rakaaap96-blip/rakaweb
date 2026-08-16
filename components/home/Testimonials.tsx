@@ -1,18 +1,19 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Star, ArrowUpRight } from 'lucide-react'
+import { Star, ArrowUpRight, BadgeCheck } from 'lucide-react'
 import Image from 'next/image'
 import Container from '@/components/ui/Container'
 
-// Data testimonial dengan avatar langsung pakai path lokal (tanpa placeholder)
 const testimonials = [
   {
     id: 1,
     name: 'Budi Santoso',
     role: 'Owner Robek Bakery',
-    content: 'Saya menggunakan jasa pembuatan website dari RakaWeb, hasilnya sangat profesional. Prosesnya cepat dan memuaskan. Penjualan online kami meningkat drastis!',
-    contentHighlight: ['jasa pembuatan website'],
+    content:
+      'Website baru kami berhasil menjual cerita sebelum menjual roti. Pesanan via WhatsApp naik hampir 3x lipat hanya dalam sebulan, dan pelanggan sering bilang "websitenya kelihatan mahal".',
+    highlight: 'naik hampir 3x lipat',
+    result: 'Pesanan WhatsApp naik 3x dalam sebulan',
     rating: 5,
     spanClass: 'md:col-span-2',
     avatar: '/images/testimonials/budi.avif',
@@ -21,8 +22,10 @@ const testimonials = [
     id: 2,
     name: 'Siti Aisyah',
     role: 'Marketing Manager, PT Maju Jaya',
-    content: 'Tim RakaWeb sangat responsif dan memahami kebutuhan kami. jasa pembuatan website mereka menghasilkan company profile yang modern dan informatif.',
-    contentHighlight: ['jasa pembuatan website'],
+    content:
+      'Company profile kami sekarang modern dan informatif. Calon klien jauh lebih percaya saat proposal kami disertai link website yang profesional — kualitas pertanyaan yang masuk pun meningkat.',
+    highlight: 'jauh lebih percaya',
+    result: 'Kredibilitas di mata calon klien naik',
     rating: 5,
     spanClass: 'md:col-span-2',
     avatar: '/images/testimonials/siti.avif',
@@ -31,8 +34,10 @@ const testimonials = [
     id: 3,
     name: 'Andi Wijaya',
     role: 'Founder StartupID',
-    content: 'Harga jasa pembuatan website dari RakaWeb terjangkau tapi kualitas premium.',
-    contentHighlight: ['jasa pembuatan website'],
+    content:
+      'Budget UMKM saya terbatas, tapi hasilnya tidak murahan. Prosesnya cepat, komunikasinya jelas, dan revisi desain tidak dibatasi sampai saya puas.',
+    highlight: 'revisi desain tidak dibatasi',
+    result: 'Hasil premium di budget UMKM',
     rating: 5,
     spanClass: 'md:col-span-1',
     avatar: '/images/testimonials/andi.avif',
@@ -41,21 +46,22 @@ const testimonials = [
     id: 4,
     name: 'Dewi Kartika',
     role: 'Owner Lunaria',
-    content: 'RakaWeb berhasil membuat website ecommerce yang mudah dikelola. jasa pembuatan website mereka menghasilkan conversion rate yang tinggi. Sangat puas!',
-    contentHighlight: ['jasa pembuatan website'],
+    content:
+      'Saya bisa edit konten sendiri tanpa minta tolong developer. Ganti promo, upload foto, tambah produk — semua gampang. Saya tinggal fokus ngembangin bisnis.',
+    highlight: 'edit konten sendiri',
+    result: 'Kontrol penuh tanpa developer',
     rating: 5,
     spanClass: 'md:col-span-3',
     avatar: '/images/testimonials/dewi.avif',
   },
 ]
 
-// Fungsi highlight teks
-function renderHighlightedText(text: string, highlights: string[]) {
-  if (!highlights.length) return text
-  const regex = new RegExp(`(${highlights.map(h => h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'gi')
-  const parts = text.split(regex)
+function highlightText(text: string, highlight: string) {
+  if (!highlight) return text
+  const escaped = highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const parts = text.split(new RegExp(`(${escaped})`, 'gi'))
   return parts.map((part, i) =>
-    highlights.some(h => h.toLowerCase() === part.toLowerCase()) ? (
+    part.toLowerCase() === highlight.toLowerCase() ? (
       <span
         key={i}
         className="bg-primary-500 text-white px-1 py-0.5 border border-black inline-block font-black tracking-wide mx-0.5 text-[11px]"
@@ -90,14 +96,21 @@ function TestimonialCard({ item, index }: { item: typeof testimonials[0]; index:
               <Star key={i} size={10} className="fill-amber-500 text-amber-500" aria-hidden="true" />
             ))}
           </div>
-          <div className="w-7 h-7 bg-primary-500 border-2 border-black flex items-center justify-center text-white font-black shrink-0" aria-hidden="true">
-            <ArrowUpRight size={12} aria-hidden="true" />
+          <div
+            className="w-7 h-7 bg-primary-500 border-2 border-black flex items-center justify-center text-white font-black shrink-0"
+            aria-hidden="true"
+          >
+            <ArrowUpRight size={12} />
           </div>
         </div>
 
         <p className="font-sans text-xs sm:text-sm font-bold leading-relaxed mb-3 tracking-tight">
-          "{renderHighlightedText(item.content, item.contentHighlight)}"
+          &ldquo;{highlightText(item.content, item.highlight)}&rdquo;
         </p>
+
+        <div className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 border-2 border-green-600 text-[9px] sm:text-[10px] font-black uppercase tracking-wide text-green-800 mb-1">
+          <BadgeCheck size={11} aria-hidden="true" /> Klien Terverifikasi
+        </div>
       </div>
 
       <div className="flex items-center gap-2 pt-2 border-t-2 border-black w-full mt-auto">
@@ -129,7 +142,7 @@ export default function Testimonials() {
     >
       <Container>
         <div className="flex flex-col items-center">
-          <div className="text-center max-w-2xl mb-10 space-y-3">
+          <div className="text-center max-w-2xl mb-8 space-y-3">
             <div
               className="inline-block px-3 py-1 bg-black text-white border-2 border-black text-xs font-mono font-black tracking-widest uppercase transform rotate-1 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
               aria-hidden="true"
@@ -143,8 +156,23 @@ export default function Testimonials() {
               APA KATA <span className="text-primary-200">KLIEN KAMI</span>
             </h2>
             <p className="font-sans text-xs sm:text-sm font-bold text-white bg-black/20 p-2 border-2 border-black max-w-xl mx-auto leading-relaxed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              Inilah pengakuan langsung dari para mitra bisnis yang bertransformasi bersama sistem RakaWeb.
+              Hasil nyata dari para mitra bisnis yang bertransformasi bersama RakaWeb.
             </p>
+          </div>
+
+          <div
+            className="flex flex-wrap items-center justify-center gap-3 mb-8 bg-black text-white border-2 border-white px-5 py-3 shadow-[5px_5px_0px_0px_rgba(255,255,0,1)]"
+            aria-label="Ringkasan rating"
+          >
+            <span className="font-display text-2xl font-black tracking-tighter text-yellow-300">4.9/5</span>
+            <span className="flex gap-0.5" aria-hidden="true">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={14} className="fill-amber-500 text-amber-500" />
+              ))}
+            </span>
+            <span className="font-sans font-bold text-xs uppercase tracking-wide">
+              rata-rata dari 30+ klien
+            </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full auto-rows-fr">

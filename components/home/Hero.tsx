@@ -4,13 +4,63 @@ import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import Button from '@/components/ui/Button'
 import Container from '@/components/ui/Container'
-import { ArrowRight, Play, CheckCircle, Shield, TrendingUp, Sparkles, ArrowDownRight, Info } from 'lucide-react'
+import Modal from '@/components/ui/Modal'
+import { ArrowRight, Play, CheckCircle, Shield, TrendingUp, Sparkles, ArrowDownRight, Info, Check, MessageCircle } from 'lucide-react'
 import {
   SiReact,
   SiNextdotjs,
   SiTailwindcss,
   SiTypescript,
 } from 'react-icons/si'
+
+const WA_LINK =
+  'https://wa.me/6287823268333?text=Halo%20RakaWeb%2C%20saya%20tertarik%20untuk%20konsultasi%20gratis.'
+
+const featureDetails: Record<
+  string,
+  { title: string; badge: string; points: string[]; note: string }
+> = {
+  'tech-stack': {
+    title: 'Sistem Tech Stack Modern',
+    badge: 'Teknologi',
+    points: [
+      'Dibangun dengan Next.js, React, dan TypeScript — stack yang sama dengan platform kelas enterprise.',
+      'Tailwind CSS untuk desain yang konsisten dan mudah dikembangkan.',
+      'Kode bersih dan terdokumentasi, sehingga mudah dipelihara dan di-upgrade di masa depan.',
+    ],
+    note: 'Anda tidak hanya mendapat website, tapi fondasi teknologi yang siap berkembang bersama bisnis.',
+  },
+  responsif: {
+    title: 'Cepat & Responsif',
+    badge: 'Mobile First',
+    points: [
+      'Layout otomatis menyesuaikan dengan sempurna di smartphone, tablet, dan desktop.',
+      'Optimasi kecepatan loading agar pengunjung tidak kabur sebelum halaman terbuka.',
+      'Tombol dan teks tetap nyaman digunakan saat diakses dari HP.',
+    ],
+    note: 'Mayoritas pengunjung bisnis lokal datang dari HP. Website Anda siap di semua perangkat.',
+  },
+  maintenance: {
+    title: 'Full Maintenance',
+    badge: 'Garansi',
+    points: [
+      'Garansi free maintenance selama 1 bulan setelah website live.',
+      'Kami mengawal keamanan server, backup, dan pembaruan berkala.',
+      'Jika ada kendala, tim kami siap membantu via WhatsApp.',
+    ],
+    note: 'Setelah website selesai, kami tetap memantau — bukan lepas tangan.',
+  },
+  seo: {
+    title: 'Optimasi SEO Google',
+    badge: 'SEO',
+    points: [
+      'Struktur kode bersih yang ramah algoritma Google.',
+      'Meta tags, heading, dan schema markup terpasang dengan benar.',
+      'Kecepatan loading optimal — salah satu faktor utama peringkat Google.',
+    ],
+    note: 'Website yang SEO-friendly membuka peluang muncul di halaman pertama Google.',
+  },
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -38,7 +88,7 @@ const cardVariants = {
 
 export default function Hero() {
   const [isMobile, setIsMobile] = useState(false)
-  const [activeCard, setActiveCard] = useState<string | null>(null)
+  const [activeFeature, setActiveFeature] = useState<string | null>(null)
 
   useEffect(() => {
     const checkMobile = () => {
@@ -49,22 +99,61 @@ export default function Hero() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  const handleCardClick = (cardId: string, title: string) => {
-    setActiveCard(cardId)
-    alert(`✨ Informasi lebih lanjut tentang "${title}"\n\nHubungi tim kami untuk konsultasi gratis terkait fitur ini.`)
-    setTimeout(() => setActiveCard(null), 300)
-  }
+  const handleCardClick = (cardId: string) => setActiveFeature(cardId)
 
-  const handleKeyDown = (e: React.KeyboardEvent, cardId: string, title: string) => {
+  const handleKeyDown = (e: React.KeyboardEvent, cardId: string) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
-      handleCardClick(cardId, title)
+      handleCardClick(cardId)
     }
   }
+
+  const activeDetail = activeFeature ? featureDetails[activeFeature] : null
+
+  const featureModal = (
+    <Modal
+      open={!!activeFeature}
+      onClose={() => setActiveFeature(null)}
+      title={activeFeature ? featureDetails[activeFeature].title : ''}
+      badge={activeDetail?.badge}
+      footer={
+        <>
+          <Button
+            href={WA_LINK}
+            fullWidth
+            icon={<MessageCircle size={18} aria-hidden="true" />}
+            className="bg-green-500 text-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-green-400 hover:text-black hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all font-black"
+          >
+            Konsultasi via WhatsApp
+          </Button>
+          <Button href="/kontak" fullWidth variant="outline" className="bg-black text-white hover:bg-yellow-300 hover:text-black hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all font-black">
+            Konsultasi Gratis
+          </Button>
+        </>
+      }
+    >
+      <ul className="space-y-3">
+        {activeDetail?.points.map((point) => (
+          <li key={point} className="flex items-start gap-2">
+            <span className="mt-0.5 shrink-0 w-5 h-5 bg-primary-100 border-2 border-black flex items-center justify-center" aria-hidden="true">
+              <Check size={12} strokeWidth={4} className="text-primary-500" />
+            </span>
+            <span className="font-sans font-bold text-sm text-navy-700 leading-relaxed">{point}</span>
+          </li>
+        ))}
+      </ul>
+      {activeDetail && (
+        <p className="font-sans font-bold text-xs text-black bg-yellow-300 border-2 border-black p-3 leading-relaxed">
+          {activeDetail.note}
+        </p>
+      )}
+    </Modal>
+  )
 
   // VERSI MOBILE: Tanpa animasi (LCP langsung muncul)
   if (isMobile) {
     return (
+      <>
       <section
         className="relative -mt-16 bg-primary-500 text-navy-900 overflow-hidden border-b-8 border-black px-4"
         aria-labelledby="hero-heading"
@@ -84,7 +173,7 @@ export default function Hero() {
               </h1>
 
               <p className="font-sans text-xs sm:text-base font-bold text-white bg-black/30 p-3 border-2 border-black max-w-xl mx-auto leading-relaxed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                Jasa pembuatan website UMKM & perusahaan yang cepat, responsif, dan SEO-friendly. Mulai dari <span className="font-black text-yellow-300 underline decoration-4 decoration-black">Rp999rb</span>.
+                Jasa pembuatan website UMKM & perusahaan yang cepat, responsif, dan SEO-friendly. Mulai dari <span className="font-black text-yellow-300 underline decoration-4 decoration-black">Rp 999.000</span>.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-1">
@@ -106,12 +195,27 @@ export default function Hero() {
                   Lihat Studi Kasus
                 </Button>
               </div>
+
+              <div className="flex flex-wrap items-center justify-center gap-2 pt-2" aria-hidden="true">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/90 border-2 border-black text-[10px] sm:text-xs font-black uppercase tracking-wide text-black">
+                  <Shield size={12} /> Garansi revisi desain sampai puas
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/90 border-2 border-black text-[10px] sm:text-xs font-black uppercase tracking-wide text-black">
+                  <CheckCircle size={12} /> Free maintenance 1 bulan
+                </span>
+              </div>
             </div>
 
             {/* Bento Grid Mobile (tanpa animasi) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full auto-rows-fr mt-2">
               {/* Kotak 1: Tech Stack */}
-              <div className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] md:col-span-2 flex flex-col justify-between">
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => handleCardClick('tech-stack')}
+                onKeyDown={(e) => handleKeyDown(e, 'tech-stack')}
+                className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] md:col-span-2 flex flex-col justify-between cursor-pointer focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-offset-2"
+              >
                 <div className="flex justify-between items-start mb-4">
                   <div className="w-10 h-10 bg-primary-100 border-2 border-black flex items-center justify-center text-primary-600" aria-hidden="true">
                     <Sparkles size={20} />
@@ -131,7 +235,13 @@ export default function Hero() {
               </div>
 
               {/* Kotak 2: Kecepatan & Responsif */}
-              <div className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => handleCardClick('responsif')}
+                onKeyDown={(e) => handleKeyDown(e, 'responsif')}
+                className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between cursor-pointer focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-offset-2"
+              >
                 <div className="flex justify-between items-start mb-6">
                   <div className="w-10 h-10 bg-primary-100 border-2 border-black flex items-center justify-center text-green-600" aria-hidden="true"><CheckCircle size={20} /></div>
                   <ArrowDownRight size={20} className="text-navy-400" aria-hidden="true" />
@@ -143,7 +253,13 @@ export default function Hero() {
               </div>
 
               {/* Kotak 3: Maintenance */}
-              <div className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => handleCardClick('maintenance')}
+                onKeyDown={(e) => handleKeyDown(e, 'maintenance')}
+                className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between cursor-pointer focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-offset-2"
+              >
                 <div className="flex justify-between items-start mb-6">
                   <div className="w-10 h-10 bg-primary-100 border-2 border-black flex items-center justify-center text-blue-600" aria-hidden="true"><Shield size={20} /></div>
                   <ArrowDownRight size={20} className="text-navy-400" aria-hidden="true" />
@@ -155,7 +271,13 @@ export default function Hero() {
               </div>
 
               {/* Kotak 4: SEO */}
-              <div className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] md:col-span-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => handleCardClick('seo')}
+                onKeyDown={(e) => handleKeyDown(e, 'seo')}
+                className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] md:col-span-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-offset-2"
+              >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-primary-100 border-2 border-black flex items-center justify-center text-purple-600 shrink-0" aria-hidden="true"><TrendingUp size={24} /></div>
                   <div>
@@ -169,11 +291,14 @@ export default function Hero() {
           </Container>
         </div>
       </section>
+      {featureModal}
+      </>
     )
   }
 
   // VERSI DESKTOP: Dengan animasi motion
   return (
+    <>
     <section
       className="relative -mt-16 bg-primary-500 text-navy-900 overflow-hidden border-b-8 border-black px-4"
       aria-labelledby="hero-heading"
@@ -211,7 +336,7 @@ export default function Hero() {
               transition={{ duration: 0.3, delay: 0 }}
               className="font-sans text-xs sm:text-base font-bold text-white bg-black/30 p-3 border-2 border-black max-w-xl mx-auto leading-relaxed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
             >
-              Jasa pembuatan website UMKM & perusahaan yang cepat, responsif, dan SEO-friendly. Mulai dari <span className="font-black text-yellow-300 underline decoration-4 decoration-black">Rp999rb</span>.
+              Jasa pembuatan website UMKM & perusahaan yang cepat, responsif, dan SEO-friendly. Mulai dari <span className="font-black text-yellow-300 underline decoration-4 decoration-black">Rp 999.000</span>.
             </motion.p>
 
             <motion.div
@@ -238,6 +363,21 @@ export default function Hero() {
                 Lihat Studi Kasus
               </Button>
             </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="flex flex-wrap items-center justify-center gap-2 pt-2"
+              aria-hidden="true"
+            >
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/90 border-2 border-black text-[10px] sm:text-xs font-black uppercase tracking-wide text-black">
+                <Shield size={12} /> Garansi revisi desain sampai puas
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/90 border-2 border-black text-[10px] sm:text-xs font-black uppercase tracking-wide text-black">
+                <CheckCircle size={12} /> Free maintenance 1 bulan
+              </span>
+            </motion.div>
           </div>
 
           {/* Bento Grid Interaktif Desktop */}
@@ -253,8 +393,8 @@ export default function Hero() {
               variants={cardVariants}
               whileHover={{ y: -8, transition: { type: 'spring', stiffness: 300 }, boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => handleCardClick('tech-stack', 'Sistem Tech Stack Modern')}
-              onKeyDown={(e) => handleKeyDown(e, 'tech-stack', 'Sistem Tech Stack Modern')}
+onClick={() => handleCardClick('tech-stack')}
+onKeyDown={(e) => handleKeyDown(e, 'tech-stack')}
               role="button"
               tabIndex={0}
               className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] md:col-span-2 flex flex-col justify-between group cursor-pointer transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-offset-2"
@@ -281,8 +421,8 @@ export default function Hero() {
               variants={cardVariants}
               whileHover={{ y: -8, transition: { type: 'spring', stiffness: 300 }, boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => handleCardClick('responsif', 'Cepat & Responsif')}
-              onKeyDown={(e) => handleKeyDown(e, 'responsif', 'Cepat & Responsif')}
+onClick={() => handleCardClick('responsif')}
+onKeyDown={(e) => handleKeyDown(e, 'responsif')}
               role="button"
               tabIndex={0}
               className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between group cursor-pointer transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-offset-2"
@@ -303,8 +443,8 @@ export default function Hero() {
               variants={cardVariants}
               whileHover={{ y: -8, transition: { type: 'spring', stiffness: 300 }, boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => handleCardClick('maintenance', 'Full Maintenance')}
-              onKeyDown={(e) => handleKeyDown(e, 'maintenance', 'Full Maintenance')}
+onClick={() => handleCardClick('maintenance')}
+onKeyDown={(e) => handleKeyDown(e, 'maintenance')}
               role="button"
               tabIndex={0}
               className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between group cursor-pointer transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-offset-2"
@@ -325,8 +465,8 @@ export default function Hero() {
               variants={cardVariants}
               whileHover={{ y: -8, transition: { type: 'spring', stiffness: 300 }, boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => handleCardClick('seo', 'Optimasi SEO Google')}
-              onKeyDown={(e) => handleKeyDown(e, 'seo', 'Optimasi SEO Google')}
+onClick={() => handleCardClick('seo')}
+onKeyDown={(e) => handleKeyDown(e, 'seo')}
               role="button"
               tabIndex={0}
               className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] md:col-span-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group cursor-pointer transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-offset-2"
@@ -345,5 +485,7 @@ export default function Hero() {
         </Container>
       </div>
     </section>
+    {featureModal}
+    </>
   )
 }
