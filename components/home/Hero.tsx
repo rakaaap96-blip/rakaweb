@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import Button from '@/components/ui/Button'
 import Container from '@/components/ui/Container'
 import Modal from '@/components/ui/Modal'
+import { trackEvent } from '@/lib/analytics'
 import { ArrowRight, Play, CheckCircle, Shield, TrendingUp, Sparkles, ArrowDownRight, Info, Check, MessageCircle } from 'lucide-react'
 import {
   SiReact,
@@ -99,7 +100,10 @@ export default function Hero() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  const handleCardClick = (cardId: string) => setActiveFeature(cardId)
+  const handleCardClick = (cardId: string) => {
+    setActiveFeature(cardId)
+    trackEvent('hero_feature_modal_open', { feature: cardId })
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent, cardId: string) => {
     if (e.key === 'Enter' || e.key === ' ') {

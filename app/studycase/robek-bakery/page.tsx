@@ -107,7 +107,7 @@ export default function StudyCaseRobekBakery() {
                 <ol className="list-decimal pl-5 space-y-2 font-medium">
                   <li><strong>First Impression:</strong> Hero section dengan value proposition yang kuat.</li>
                   <li><strong>Product Explore:</strong> Card layout yang clean dan informatif.</li>
-                  <li><strong>Storytelling:</strong> Section "Dapur 1985" untuk koneksi autentik.</li>
+                  <li><strong>Storytelling:</strong> Section &ldquo;Dapur 1985&rdquo; untuk koneksi autentik.</li>
                   <li><strong>Social Proof:</strong> Testimonial strategis untuk validasi.</li>
                   <li><strong>Frictionless Ordering:</strong> WhatsApp CTA yang tersebar strategis.</li>
                 </ol>

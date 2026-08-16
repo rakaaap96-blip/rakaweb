@@ -1,13 +1,14 @@
 import { servicesData } from '@/data/services'
-import { generateMetadata } from '@/lib/seo'
+import { generateMetadata, buildServiceSchemas } from '@/lib/seo'
 import Container from '@/components/ui/Container'
 import Button from '@/components/ui/Button'
 import { CheckCircle } from 'lucide-react'
 import PricingTable from '@/components/services/PricingTable'
 
 export const metadata = generateMetadata({
-  title: servicesData.umkm.title,
-  description: servicesData.umkm.description,
+  title: 'Jasa Pembuatan Website UMKM di Bogor - Mulai Rp 999.000',
+  description:
+    'Jasa pembuatan website UMKM di Bogor mulai Rp 999.000. Desain custom, mobile responsive, SEO-friendly, gratis hosting 1 tahun, dan garansi revisi.',
   slug: '/jasa-pembuatan-website-umkm',
 })
 
@@ -19,24 +20,13 @@ export default function UMKMServicePage() {
     recommended: idx === 1,
   }))
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: data.title,
+  const schemas = buildServiceSchemas({
+    title: data.title,
     description: data.description,
-    provider: {
-      '@type': 'LocalBusiness',
-      name: 'RakaWeb',
-      url: 'https://rakawebpro.vercel.app/',
-    },
-    offers: data.pricing.map((plan) => ({
-      '@type': 'Offer',
-      name: plan.name,
-      price: plan.price.replace(/[^0-9]/g, ''),
-      priceCurrency: 'IDR',
-      description: plan.features.join(', '),
-    })),
-  }
+    slug: '/jasa-pembuatan-website-umkm',
+    pricing: data.pricing,
+    faqs: data.faqs,
+  })
 
   const titleParts = data.title.split('Website UMKM')
   const mainTitle = titleParts[0] || ''
@@ -242,10 +232,13 @@ export default function UMKMServicePage() {
       </section>
 
       {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {schemas.map((schema, idx) => (
+        <script
+          key={idx}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
     </>
   )
 }

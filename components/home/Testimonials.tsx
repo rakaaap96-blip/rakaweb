@@ -11,9 +11,9 @@ const testimonials = [
     name: 'Budi Santoso',
     role: 'Owner Robek Bakery',
     content:
-      'Website baru kami berhasil menjual cerita sebelum menjual roti. Pesanan via WhatsApp naik hampir 3x lipat hanya dalam sebulan, dan pelanggan sering bilang "websitenya kelihatan mahal".',
-    highlight: 'naik hampir 3x lipat',
-    result: 'Pesanan WhatsApp naik 3x dalam sebulan',
+      'Website baru kami berhasil menjual cerita sebelum menjual roti. Pesanan via WhatsApp bertambah dan pelanggan sering bilang "websitenya kelihatan mahal".',
+    highlight: '"websitenya kelihatan mahal"',
+    result: 'Pesanan WhatsApp bertambah setelah website live',
     rating: 5,
     spanClass: 'md:col-span-2',
     avatar: '/images/testimonials/budi.avif',
@@ -164,14 +164,14 @@ export default function Testimonials() {
             className="flex flex-wrap items-center justify-center gap-3 mb-8 bg-black text-white border-2 border-white px-5 py-3 shadow-[5px_5px_0px_0px_rgba(255,255,0,1)]"
             aria-label="Ringkasan rating"
           >
-            <span className="font-display text-2xl font-black tracking-tighter text-yellow-300">4.9/5</span>
+            <span className="font-display text-2xl font-black tracking-tighter text-yellow-300">5/5</span>
             <span className="flex gap-0.5" aria-hidden="true">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} size={14} className="fill-amber-500 text-amber-500" />
               ))}
             </span>
             <span className="font-sans font-bold text-xs uppercase tracking-wide">
-              rata-rata dari 30+ klien
+              dari testimonial klien di bawah
             </span>
           </div>
 

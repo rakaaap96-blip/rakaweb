@@ -1,7 +1,7 @@
 import { getAllBlogPosts } from '@/lib/mdx'
 import BlogLayout from '@/components/blog/BlogLayout'
 import BlogCard from '@/components/blog/BlogCard'
-import { generateMetadata } from '@/lib/seo'
+import { generateMetadata, generateSchemaBreadcrumbList } from '@/lib/seo'
 
 export const metadata = generateMetadata({
   title: 'Blog RakaWeb - Artikel & Tips Website Terbaru',
@@ -11,6 +11,11 @@ export const metadata = generateMetadata({
 
 export default async function BlogPage() {
   const posts = await getAllBlogPosts()
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app').replace(/\/$/, '')
+  const breadcrumbLd = generateSchemaBreadcrumbList([
+    { name: 'Beranda', url: '/' },
+    { name: 'Blog', url: '/blog' },
+  ])
 
   return (
     <>
@@ -64,18 +69,22 @@ export default async function BlogPage() {
             "@type": "CollectionPage",
             "name": "Blog RakaWeb",
             "description": "Artikel dan tips terbaru seputar pembuatan website, digital marketing, dan teknologi.",
-            "url": "https://rakaweb.com/blog",
+            "url": `${baseUrl}/blog`,
             "mainEntity": {
               "@type": "ItemList",
               "itemListElement": posts.map((post, idx) => ({
                 "@type": "ListItem",
                 "position": idx + 1,
-                "url": `https://rakaweb.com/blog/${post.slug}`,
+                "url": `${baseUrl}/blog/${post.slug}`,
                 "name": post.title,
               })),
             },
           }),
         }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
     </>
   )

@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
@@ -12,9 +13,42 @@ import TopReadArticles from '@/components/blog/TopReadArticles'
 import ScrollProgress from '@/components/blog/ScrollProgress'
 import ScrollToTop from '@/components/blog/ScrollToTop'
 import Container from '@/components/ui/Container'
+import { generateMetadata as generateSeoMetadata, generateSchemaBreadcrumbList } from '@/lib/seo'
+import { getBlogPostFrontmatter } from '@/lib/mdx'
 
 interface PageProps {
   params: Promise<{ slug: string }>
+}
+
+const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app').replace(/\/$/, '')
+
+export function generateStaticParams() {
+  const blogDir = path.join(process.cwd(), 'content/blog')
+  if (!fs.existsSync(blogDir)) return []
+  return fs
+    .readdirSync(blogDir)
+    .filter((file) => file.endsWith('.mdx'))
+    .map((file) => ({ slug: file.replace(/\.mdx$/, '') }))
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params
+  const meta = await getBlogPostFrontmatter(slug)
+  if (!meta) {
+    return generateSeoMetadata({
+      title: 'Artikel Tidak Ditemukan',
+      description: 'Artikel yang Anda cari tidak ditemukan.',
+      slug: `/blog/${slug}`,
+      noIndex: true,
+    })
+  }
+  return generateSeoMetadata({
+    title: meta.data.title || 'Artikel RakaWeb',
+    description: meta.data.description || meta.content.slice(0, 160),
+    slug: `/blog/${slug}`,
+    keywords: Array.isArray(meta.data.tags) ? meta.data.tags : undefined,
+    ogImage: meta.data.image || '/og-image.jpg',
+  })
 }
 
 function slugify(text: string): string {
@@ -37,7 +71,6 @@ export default async function BlogDetailPage({ params }: PageProps) {
   const source = fs.readFileSync(filePath, 'utf-8')
   const { content, data } = matter(source)
 
-  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app').replace(/\/$/, '')
   const pageUrl = `${baseUrl}/blog/${slug}`
 
   let authors = []
@@ -71,9 +104,39 @@ export default async function BlogDetailPage({ params }: PageProps) {
     image: `${baseUrl}${image}`,
     datePublished: data.date,
     dateModified: data.date,
-    author: authors.map(a => ({ '@type': 'Person', name: a.name })),
-    mainEntityOfPage: pageUrl,
+    author: authors.map(a => ({
+      '@type': 'Person',
+      name: a.name,
+      ...(a.role ? { jobTitle: a.role } : {}),
+    })),
+    publisher: {
+      '@type': 'Organization',
+      name: 'RakaWeb',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${baseUrl}/logo.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': pageUrl,
+    },
+    isPartOf: {
+      '@type': 'Blog',
+      name: 'Blog RakaWeb',
+      url: `${baseUrl}/blog`,
+    },
+    keywords: Array.isArray(tags) ? tags.join(', ') : '',
+    wordCount,
+    timeRequired: `PT${readingTime}M`,
+    inLanguage: 'id',
   }
+
+  const breadcrumbLd = generateSchemaBreadcrumbList([
+    { name: 'Beranda', url: '/' },
+    { name: 'Blog', url: '/blog' },
+    { name: title, url: `/blog/${slug}` },
+  ])
 
   return (
     <>
@@ -82,6 +145,10 @@ export default async function BlogDetailPage({ params }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <article
         className="pt-32 pb-20 bg-white"

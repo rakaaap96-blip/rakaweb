@@ -25,9 +25,12 @@ export default function ScrollToTop() {
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    toggleVisibility() // Cek posisi awal saat mount
+    const rafId = requestAnimationFrame(toggleVisibility) // Cek posisi awal saat mount (ditunda 1 frame)
 
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(rafId)
+    }
   }, [toggleVisibility])
 
   const scrollToTop = useCallback(() => {

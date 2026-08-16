@@ -34,11 +34,6 @@ const milestones = [
 ]
 
 export default function TentangPage() {
-  const handleScrollToPhilosophy = () => {
-    const element = document.getElementById('philosophy-section')
-    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-
   // JSON-LD untuk halaman Tentang Kami
   const jsonLd = {
     '@context': 'https://schema.org',

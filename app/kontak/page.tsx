@@ -7,6 +7,7 @@ import { MapPin, Mail, Clock, Send, CheckCircle, AlertCircle } from 'lucide-reac
 import { FaWhatsapp } from 'react-icons/fa'
 import Button from '@/components/ui/Button'
 import Container from '@/components/ui/Container'
+import { trackEvent } from '@/lib/analytics'
 
 export default function KontakPage() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
@@ -65,6 +66,7 @@ export default function KontakPage() {
         throw new Error(result.error || 'Gagal mengirim pesan')
       }
       setSubmitted(true)
+      trackEvent('lead_form_submit', { form: 'kontak', email: formData.email })
       setFormData({ name: '', email: '', message: '' })
       setTimeout(() => setSubmitted(false), 5000)
     } catch (err) {
@@ -82,12 +84,14 @@ export default function KontakPage() {
     { icon: Clock, title: 'Jam Kerja', detail: 'Senin - Jumat, 09:00 - 18:00 WIB', link: null, a11yLabel: 'Jam kerja RakaWeb' },
   ]
 
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app').replace(/\/$/, '')
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ContactPage',
     name: 'Hubungi RakaWeb',
     description: 'Konsultasikan kebutuhan website Anda secara gratis melalui formulir, WhatsApp, email, atau telepon.',
-    url: 'https://rakawebpro.vercel.app/kontak',
+    url: `${siteUrl}/kontak`,
     mainEntity: {
       '@type': 'Organization',
       name: 'RakaWeb',

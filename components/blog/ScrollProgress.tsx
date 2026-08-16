@@ -30,10 +30,13 @@ export default function ScrollProgress() {
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    // Hitung progres awal saat komponen mount
-    handleScroll()
+    // Hitung progres awal saat komponen mount (ditunda 1 frame agar tidak memicu cascading render)
+    const rafId = requestAnimationFrame(handleScroll)
 
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(rafId)
+    }
   }, [handleScroll])
 
   return (

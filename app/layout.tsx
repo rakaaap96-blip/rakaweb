@@ -16,16 +16,27 @@ import { Analytics } from '@vercel/analytics/react'
 import ScrollToTopWrapper from '@/components/ScrollToTopWrapper'
 import SkipLink from '@/components/ui/SkipLink'
 import CustomScrollbar from '@/components/ui/CustomScrollbar'
+import TrackWhatsAppClicks from '@/components/analytics/TrackWhatsAppClicks'
+import MotionProvider from '@/components/MotionProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
 const baseMetadata = seoMetadata({
-  title: 'RakaWeb - Jasa Pembuatan Website Profesional di Bogor',
+  title: 'Jasa Pembuatan Website Profesional di Bogor',
   description: 'Jasa pembuatan website profesional di Bogor. Solusi website UMKM, company profile, dan ecommerce dengan harga terjangkau dan SEO-friendly.',
 })
 
 export const metadata: Metadata = {
   ...baseMetadata,
+  applicationName: 'RakaWeb',
+  appleWebApp: {
+    capable: true,
+    title: 'RakaWeb',
+    statusBarStyle: 'default',
+  },
+  formatDetection: {
+    telephone: false,
+  },
   icons: {
     icon: [
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
@@ -69,15 +80,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
           />
         ))}
-        <SkipLink />
-        <Navbar />
-        <main id="main-content" className="pt-16" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
-        {process.env.NEXT_PUBLIC_VERCEL_ENV && <Analytics />}
-        <ScrollToTopWrapper />
-        <CustomScrollbar />
+        <MotionProvider>
+          <SkipLink />
+          <Navbar />
+          <TrackWhatsAppClicks />
+          <main id="main-content" className="pt-16" tabIndex={-1}>
+            {children}
+          </main>
+          <Footer />
+          {process.env.NEXT_PUBLIC_VERCEL_ENV && <Analytics />}
+          <ScrollToTopWrapper />
+          <CustomScrollbar />
+        </MotionProvider>
 
         {gaId && (
           <>

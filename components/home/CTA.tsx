@@ -92,7 +92,7 @@ export default function CTA() {
           </ul>
 
           <p className="font-mono font-black text-xs uppercase tracking-wider text-white pt-2 border-t-2 border-white/30 max-w-xl mx-auto" aria-live="polite">
-            Kuota proyek terbatas — kami hanya menerima 5 proyek per bulan untuk menjaga kualitas.
+            Setiap proyek kami kerjakan satu per satu secara fokus — tidak ada template instan.
           </p>
         </motion.div>
       </Container>

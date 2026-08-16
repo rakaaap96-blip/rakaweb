@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -45,9 +45,12 @@ export default function Navbar() {
 
   // Tutup mobile menu & dropdown saat ganti halaman
   useEffect(() => {
-    setIsOpen(false);
-    setActiveDropdown(null);
-  }, [pathname]);
+    const rafId = requestAnimationFrame(() => {
+      setIsOpen(false)
+      setActiveDropdown(null)
+    })
+    return () => cancelAnimationFrame(rafId)
+  }, [pathname])
 
   // Focus trap untuk mobile menu
   useEffect(() => {
@@ -140,11 +143,7 @@ export default function Navbar() {
       <Container>
         <div className={`flex items-center justify-between transition-all duration-150 ${scrolled ? 'py-3' : 'py-2'}`}>
           {/* Logo */}
-          <Link
-            href="/"
-            className="relative z-10 flex items-center border-2 border-transparent transition-all duration-150 hover:border-black hover:bg-yellow-300 hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] ml-2 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-            aria-label="Beranda"
-          >
+          <div className="relative z-10 flex items-center border-2 border-transparent ml-2">
             <div className="relative h-10 w-10 md:h-12 md:w-12 overflow-hidden">
               <Image
                 src="/images/LogoRakaweb.png"
@@ -155,7 +154,7 @@ export default function Navbar() {
                 priority
               />
             </div>
-          </Link>
+          </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-1">

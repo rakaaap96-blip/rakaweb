@@ -8,5 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ['/api/', '/admin/', '/private/'],
     },
     sitemap: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app'}/sitemap.xml`,
+    host: process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app',
   }
 }

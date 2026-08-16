@@ -93,14 +93,6 @@ export function generateSchemaWebSite() {
     name: SITE_NAME,
     url: SITE_URL,
     description: SITE_DESCRIPTION,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
   }
 }
 
@@ -192,6 +184,65 @@ export function generateSchemaBreadcrumbList(items: { name: string; url: string 
       item: `${SITE_URL}${item.url}`,
     })),
   }
+}
+
+export function generateSchemaFAQ(faqs: { question: string; answer: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  }
+}
+
+interface ServicePageData {
+  title: string
+  description: string
+  slug: string
+  pricing: { name: string; price: string; features: string[] }[]
+  faqs: { question: string; answer: string }[]
+}
+
+export function buildServiceSchemas(data: ServicePageData) {
+  const url = `${SITE_URL}${data.slug}`
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: data.title,
+      description: data.description,
+      serviceType: 'Web Development',
+      url,
+      provider: {
+        '@type': 'LocalBusiness',
+        name: SITE_NAME,
+        url: SITE_URL,
+      },
+      areaServed: [
+        { '@type': 'City', name: 'Bogor' },
+        { '@type': 'Country', name: 'Indonesia' },
+      ],
+      offers: data.pricing.map((plan) => ({
+        '@type': 'Offer',
+        name: plan.name,
+        price: plan.price.replace(/[^0-9]/g, ''),
+        priceCurrency: 'IDR',
+        description: plan.features.join(', '),
+        url,
+      })),
+    },
+    generateSchemaFAQ(data.faqs),
+    generateSchemaBreadcrumbList([
+      { name: 'Beranda', url: '/' },
+      { name: data.title, url: data.slug },
+    ]),
+  ]
 }
 
 export function generateSchemaService() {

@@ -54,7 +54,7 @@ export default function TableOfContents({
       }
     })
 
-    setHeadings(headingList)
+    const rafId = requestAnimationFrame(() => setHeadings(headingList))
 
     observerRef.current = new IntersectionObserver(
       (entries) => {
@@ -74,7 +74,10 @@ export default function TableOfContents({
       if (el) observerRef.current?.observe(el)
     })
 
-    return () => observerRef.current?.disconnect()
+    return () => {
+      observerRef.current?.disconnect()
+      cancelAnimationFrame(rafId)
+    }
   }, [containerSelector, offset])
 
   const handleClick = useCallback(

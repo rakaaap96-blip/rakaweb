@@ -168,7 +168,7 @@ export default function StudyCaseCoksu() {
                     langsung.
                   </li>
                   <li>
-                    <strong>Clear Product Value:</strong> Section "Core Components" menjelaskan kualitas bahan.
+                    <strong>Clear Product Value:</strong> Section &ldquo;Core Components&rdquo; menjelaskan kualitas bahan.
                   </li>
                   <li>
                     <strong>Social Proof:</strong> Testimonial dengan tema visual yang konsisten.

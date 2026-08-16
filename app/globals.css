@@ -7,15 +7,6 @@
   --font-sans: "Inter", system-ui, sans-serif;
 }
 
-@import "tailwindcss";
-@plugin "@tailwindcss/typography";
-
-@theme {
-  --color-primary-500: #4169E1;
-  --color-navy-800: #0F172A;
-  --font-sans: "Inter", system-ui, sans-serif;
-}
-
 @layer base {
   html, body {
     overflow: auto;
@@ -93,5 +84,22 @@
   [data-animate-on-scroll] {
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* === REDUCED MOTION ACCESSIBILITY === */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .animate-marquee {
+    animation: none !important;
   }
 }

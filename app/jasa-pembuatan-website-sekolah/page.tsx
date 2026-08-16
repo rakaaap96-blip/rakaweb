@@ -1,13 +1,14 @@
 import { servicesData } from '@/data/services'
-import { generateMetadata } from '@/lib/seo'
+import { generateMetadata, buildServiceSchemas } from '@/lib/seo'
 import Container from '@/components/ui/Container'
 import Button from '@/components/ui/Button'
 import { CheckCircle } from 'lucide-react'
 import PricingTable from '@/components/services/PricingTable'
 
 export const metadata = generateMetadata({
-  title: servicesData.school.title,
-  description: servicesData.school.description,
+  title: 'Jasa Pembuatan Website Sekolah di Bogor',
+  description:
+    'Jasa pembuatan website sekolah modern di Bogor: profil, berita, pengumuman, galeri kegiatan, hingga PPDB online. Mudah dikelola tanpa developer.',
   slug: '/jasa-pembuatan-website-sekolah',
 })
 
@@ -20,24 +21,13 @@ export default function SchoolServicePage() {
     periode: 'Uang Muka 50%',
   }))
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: data.title,
+  const schemas = buildServiceSchemas({
+    title: data.title,
     description: data.description,
-    provider: {
-      '@type': 'LocalBusiness',
-      name: 'RakaWeb',
-      url: 'https://rakawebpro.vercel.app/',
-    },
-    offers: data.pricing.map((plan) => ({
-      '@type': 'Offer',
-      name: plan.name,
-      price: plan.price.replace(/[^0-9]/g, ''),
-      priceCurrency: 'IDR',
-      description: plan.features.join(', '),
-    })),
-  }
+    slug: '/jasa-pembuatan-website-sekolah',
+    pricing: data.pricing,
+    faqs: data.faqs,
+  })
 
   const titleParts = data.title.split('Website Sekolah')
   const mainTitle = titleParts[0] || ''
@@ -239,10 +229,13 @@ export default function SchoolServicePage() {
       </section>
 
       {/* JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {schemas.map((schema, idx) => (
+        <script
+          key={idx}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
     </>
   )
 }

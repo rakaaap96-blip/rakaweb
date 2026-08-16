@@ -7,15 +7,15 @@ import Container from '@/components/ui/Container'
 const stats = [
   {
     icon: Globe,
-    value: '50+',
-    label: 'Website Selesai',
-    detail: 'UMKM, perusahaan, dan sekolah',
+    value: '100%',
+    label: 'Mobile Friendly',
+    detail: 'Tampil sempurna di semua perangkat',
   },
   {
     icon: Star,
-    value: '4.9/5',
-    label: 'Kepuasan Klien',
-    detail: 'Dari 30+ ulasan klien',
+    value: '30 Hari',
+    label: 'Garansi Maintenance',
+    detail: 'Gratis setelah website live',
   },
   {
     icon: MessageCircle,

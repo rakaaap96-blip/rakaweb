@@ -1,13 +1,14 @@
 import { servicesData } from '@/data/services'
-import { generateMetadata } from '@/lib/seo'
+import { generateMetadata, buildServiceSchemas } from '@/lib/seo'
 import Container from '@/components/ui/Container'
 import Button from '@/components/ui/Button'
 import { CheckCircle } from 'lucide-react'
 import PricingTable from '@/components/services/PricingTable'
 
 export const metadata = generateMetadata({
-  title: servicesData.company.title,
-  description: servicesData.company.description,
+  title: 'Jasa Pembuatan Website Company Profile di Bogor',
+  description:
+    'Jasa pembuatan website company profile profesional di Bogor. Tingkatkan kredibilitas perusahaan dengan website modern, cepat, dan mudah ditemukan di Google.',
   slug: '/jasa-pembuatan-website-company-profile',
 })
 
@@ -20,25 +21,13 @@ export default function CompanyProfilePage() {
     periode: 'Uang Muka 50%',
   }))
 
-  // JSON-LD untuk layanan
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    'name': data.title,
-    'description': data.description,
-    'provider': {
-      '@type': 'LocalBusiness',
-      'name': 'RakaWeb',
-      'url': 'https://rakawebpro.vercel.app/',
-    },
-    'offers': data.pricing.map(plan => ({
-      '@type': 'Offer',
-      'name': plan.name,
-      'price': plan.price.replace(/[^0-9]/g, ''),
-      'priceCurrency': 'IDR',
-      'description': plan.features.join(', '),
-    })),
-  }
+  const schemas = buildServiceSchemas({
+    title: data.title,
+    description: data.description,
+    slug: '/jasa-pembuatan-website-company-profile',
+    pricing: data.pricing,
+    faqs: data.faqs,
+  })
 
   return (
     <>
@@ -214,10 +203,13 @@ export default function CompanyProfilePage() {
       </section>
 
       {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {schemas.map((schema, idx) => (
+        <script
+          key={idx}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
     </>
   )
 }

@@ -13,6 +13,14 @@ export async function getAllBlogSlugs(): Promise<string[]> {
   return files.filter(file => file.endsWith('.mdx')).map(file => file.replace(/\.mdx$/, ''))
 }
 
+export async function getBlogPostFrontmatter(slug: string) {
+  const filePath = path.join(BLOG_DIR, `${slug}.mdx`)
+  if (!fs.existsSync(filePath)) return null
+  const source = fs.readFileSync(filePath, 'utf-8')
+  const { data, content } = matter(source)
+  return { data, content }
+}
+
 // Generate a numeric ID from a name (simple hash)
 function generateAuthorId(name: string): number {
   let hash = 0
@@ -43,7 +51,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost> {
   // Konversi author (tunggal atau jamak)
   let authors: Author[] = []
   if (data.authors && Array.isArray(data.authors)) {
-    authors = data.authors.map((a: any) => ({
+    authors = data.authors.map((a: { id?: string | number; name?: string; avatar?: string; role?: string; bio?: string }) => ({
       id: typeof a.id === 'number' ? a.id : (a.id ? parseInt(String(a.id), 10) : generateAuthorId(a.name || 'penulis')),
       name: a.name || 'Penulis',
       avatar: a.avatar || '',
