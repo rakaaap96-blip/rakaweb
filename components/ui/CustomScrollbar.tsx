@@ -12,7 +12,6 @@ export default function CustomScrollbar() {
   const thumbRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const rafId = useRef<number | null>(null);
-  const ticking = useRef(false);
 
   // Deteksi apakah device adalah desktop (non-mobile, non-touch)
   useEffect(() => {
@@ -59,19 +58,6 @@ export default function CustomScrollbar() {
       setThumbTop(scrollPercent * maxThumbTop);
     });
   }, []);
-
-  const handleWheel = useCallback((e: WheelEvent) => {
-    e.preventDefault();
-    if (!ticking.current) {
-      requestAnimationFrame(() => {
-        const delta = e.deltaY || e.deltaX;
-        window.scrollBy({ top: delta, behavior: 'auto' });
-        showScrollbar();
-        ticking.current = false;
-      });
-      ticking.current = true;
-    }
-  }, [showScrollbar]);
 
   const handleThumbDrag = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -121,17 +107,13 @@ export default function CustomScrollbar() {
     window.addEventListener('scroll', onWindowScroll);
     window.addEventListener('resize', updateThumb);
 
-    const track = trackRef.current;
-    if (track) track.addEventListener('wheel', handleWheel, { passive: false });
-
     return () => {
       window.removeEventListener('scroll', onWindowScroll);
       window.removeEventListener('resize', updateThumb);
-      if (track) track.removeEventListener('wheel', handleWheel);
       if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
       if (rafId.current) cancelAnimationFrame(rafId.current);
     };
-  }, [shouldRender, updateThumb, showScrollbar, handleWheel]);
+  }, [shouldRender, updateThumb, showScrollbar]);
 
   // Tidak render di mobile atau touch device
   if (!shouldRender) return null;

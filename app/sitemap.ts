@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { getAllBlogSlugs, getBlogPost } from '@/lib/mdx'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app'
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app').replace(/\/$/, '')
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -75,6 +75,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${SITE_URL}/terms`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
+      priority: 0.3,
+    },
+    {
+      url: `${SITE_URL}/feed.xml`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
       priority: 0.3,
     },
   ]

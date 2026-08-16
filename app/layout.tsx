@@ -13,11 +13,13 @@ import {
   generateSchemaService
 } from '@/lib/seo'
 import { Analytics } from '@vercel/analytics/react'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import ScrollToTopWrapper from '@/components/ScrollToTopWrapper'
 import SkipLink from '@/components/ui/SkipLink'
 import CustomScrollbar from '@/components/ui/CustomScrollbar'
 import TrackWhatsAppClicks from '@/components/analytics/TrackWhatsAppClicks'
 import MotionProvider from '@/components/MotionProvider'
+import WhatsAppFloat from '@/components/WhatsAppFloat'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -91,24 +93,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {process.env.NEXT_PUBLIC_VERCEL_ENV && <Analytics />}
           <ScrollToTopWrapper />
           <CustomScrollbar />
+          <WhatsAppFloat />
         </MotionProvider>
 
-        {gaId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-              strategy="lazyOnload"
-            />
-            <Script id="google-analytics" strategy="lazyOnload">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaId}');
-              `}
-            </Script>
-          </>
-        )}
+        {gaId && <GoogleAnalytics gaId={gaId} />}
         {gtmId && (
           <>
             <Script id="gtm" strategy="lazyOnload">

@@ -23,12 +23,19 @@ export function generateMetadata({
   ogImage,
   slug = '',
   noIndex = false,
+  feedUrl,
 }: MetadataProps): Metadata {
   const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME
   const pageDescription = description || SITE_DESCRIPTION
   const pageKeywords = keywords || SITE_KEYWORDS
   const pageUrl = `${SITE_URL}${slug.startsWith('/') ? slug : `/${slug}`}`
   const pageOgImage = ogImage?.startsWith('http') ? ogImage : `${SITE_URL}${ogImage || '/og-image.jpg'}`
+  const alternates: Metadata['alternates'] = { canonical: pageUrl }
+  if (feedUrl) {
+    alternates.types = {
+      'application/rss+xml': `${SITE_URL}${feedUrl.startsWith('/') ? feedUrl : `/${feedUrl}`}`,
+    }
+  }
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -76,9 +83,7 @@ export function generateMetadata({
       creator: '@rakawed',
       site: '@rakawed',
     },
-    alternates: {
-      canonical: pageUrl,
-    },
+    alternates,
     category: 'technology',
     verification: {
       google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',

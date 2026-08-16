@@ -5,6 +5,7 @@ export interface MetadataProps {
   ogImage?: string
   slug?: string
   noIndex?: boolean
+  feedUrl?: string
 }
 
 export interface Author {

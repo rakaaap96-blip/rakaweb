@@ -1,7 +1,7 @@
 // app/kontak/page.tsx
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { MapPin, Mail, Clock, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
@@ -15,6 +15,7 @@ export default function KontakPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  const websiteRef = useRef<HTMLInputElement>(null)
 
   const validateField = (name: string, value: string) => {
     switch (name) {
@@ -59,7 +60,10 @@ export default function KontakPage() {
       const response = await fetch('/api/kontak', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          website: websiteRef.current?.value || '',
+        }),
       })
       const result = await response.json()
       if (!response.ok) {
@@ -171,6 +175,18 @@ export default function KontakPage() {
             <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
               <form onSubmit={handleSubmit} className="bg-white border-4 border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] p-6 space-y-5 transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
                 <h3 className="font-sans font-black text-xl uppercase tracking-tighter">Kirim Pesan</h3>
+
+                <div className="sr-only" aria-hidden="true">
+                  <label htmlFor="website">Jangan diisi jika Anda manusia</label>
+                  <input
+                    ref={websiteRef}
+                    type="text"
+                    id="website"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
 
                 <div>
                   <label htmlFor="name" className="font-sans font-bold text-sm block mb-1">

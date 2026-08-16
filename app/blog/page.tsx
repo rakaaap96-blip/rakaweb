@@ -7,6 +7,7 @@ export const metadata = generateMetadata({
   title: 'Blog RakaWeb - Artikel & Tips Website Terbaru',
   description: 'Baca artikel terbaru tentang tips membuat website, digital marketing, dan perkembangan teknologi untuk bisnis Anda.',
   slug: '/blog',
+  feedUrl: '/feed.xml',
 })
 
 export default async function BlogPage() {
