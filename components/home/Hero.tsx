@@ -121,19 +121,14 @@ export default function Hero() {
       title={activeFeature ? featureDetails[activeFeature].title : ''}
       badge={activeDetail?.badge}
       footer={
-        <>
-          <Button
-            href={WA_LINK}
-            fullWidth
-            icon={<MessageCircle size={18} aria-hidden="true" />}
-            className="bg-green-500 text-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-green-400 hover:text-black hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all font-black"
-          >
-            Konsultasi via WhatsApp
-          </Button>
-          <Button href="/kontak" fullWidth variant="outline" className="bg-black text-white hover:bg-yellow-300 hover:text-black hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all font-black">
-            Konsultasi Gratis
-          </Button>
-        </>
+        <Button
+          href={WA_LINK}
+          fullWidth
+          icon={<MessageCircle size={18} aria-hidden="true" />}
+          className="bg-green-500 text-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-green-400 hover:text-black hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all font-black"
+        >
+          Konsultasi via WhatsApp
+        </Button>
       }
     >
       <ul className="space-y-3">
