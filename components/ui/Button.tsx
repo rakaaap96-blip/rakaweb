@@ -36,7 +36,7 @@ export default function Button({
 }: ButtonProps) {
   // Base styles: border hitam 4px, tanpa rounded, efek translate saat active
   const baseStyles =
-    'inline-flex items-center justify-center gap-2 font-sans font-black uppercase tracking-tight text-black border-4 border-black rounded-none transition-all duration-150 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed disabled:active:translate-x-0 disabled:active:translate-y-0'
+    'inline-flex min-h-11 items-center justify-center gap-2 font-sans font-black uppercase tracking-tight text-black border-4 border-black rounded-none transition-all duration-150 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed disabled:active:translate-x-0 disabled:active:translate-y-0'
 
   // Neubrutalism variants
   const variants = {

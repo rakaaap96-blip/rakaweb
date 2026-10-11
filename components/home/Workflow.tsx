@@ -1,9 +1,5 @@
-'use client'
-
-import { useRef } from 'react'
-import { motion } from 'framer-motion'
+// Server Component — no client JS required.
 import { ClipboardList, Palette, Code, Rocket, ArrowRight } from 'lucide-react'
-import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 import Container from '@/components/ui/Container'
 import Button from '@/components/ui/Button'
 
@@ -39,22 +35,14 @@ const steps = [
 ]
 
 export default function Workflow() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const isVisible = useScrollAnimation({ threshold: 0.2, once: true })
-
   return (
     <section
-      ref={sectionRef}
       className="py-20 bg-white border-b-8 border-black"
       aria-labelledby="workflow-heading"
     >
       <Container>
-        {/* Header neubrutalism */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+        <div
+          className="reveal text-center max-w-3xl mx-auto mb-16 space-y-4"
         >
           <div
             className="inline-block px-4 py-2 bg-black text-white border-2 border-black text-sm font-mono font-black uppercase tracking-wider transform rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
@@ -68,22 +56,14 @@ export default function Workflow() {
           <p className="font-sans text-base font-bold text-navy-700 max-w-2xl mx-auto leading-relaxed">
             Kami memiliki workflow yang jelas agar website Anda selesai tepat waktu sesuai harapan.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Grid card neubrutalism */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, index) => {
+        <div className="reveal-stagger grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step) => {
             const IconComponent = step.icon
             return (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: index * 0.1 }}
-                className="h-full"
-              >
+              <div key={step.title} className="h-full">
                 <div className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-6 transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] h-full flex flex-col">
-                  {/* Icon container - dekoratif */}
                   <div
                     className="w-20 h-20 mb-4 flex items-center justify-center bg-primary-100 border-2 border-black"
                     aria-hidden="true"
@@ -103,17 +83,12 @@ export default function Workflow() {
                     {step.description}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             )
           })}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.4 }}
-          className="mt-14 text-center"
-        >
+        <div className="reveal mt-14 text-center">
           <Button
             href="/kontak"
             size="lg"
@@ -123,9 +98,9 @@ export default function Workflow() {
             Mulai Langkah Pertama — Konsultasi Gratis
           </Button>
           <p className="mt-3 font-mono font-bold text-xs uppercase tracking-wider text-navy-500">
-            Langkah 1 gratis & tanpa komitmen
+            Langkah 1 gratis &amp; tanpa komitmen
           </p>
-        </motion.div>
+        </div>
       </Container>
     </section>
   )

@@ -26,7 +26,7 @@ export interface BlogPost {
   category: string
   tags: string[]
   image: string
-  content: any
+  content: string
 }
 
 // Untuk backward compatibility, kita bisa tambahkan properti author (single) yang diambil dari authors[0]

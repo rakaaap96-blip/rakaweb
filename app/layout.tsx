@@ -18,7 +18,6 @@ import ScrollToTopWrapper from '@/components/ScrollToTopWrapper'
 import SkipLink from '@/components/ui/SkipLink'
 import CustomScrollbar from '@/components/ui/CustomScrollbar'
 import TrackWhatsAppClicks from '@/components/analytics/TrackWhatsAppClicks'
-import MotionProvider from '@/components/MotionProvider'
 import WhatsAppFloat from '@/components/WhatsAppFloat'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -55,6 +54,11 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: '#4169E1',
+  width: 'device-width',
+  initialScale: 1,
+  // Lets the UI extend under the notch / home indicator on iOS so the
+  // floating buttons and nav can use env(safe-area-inset-*).
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -71,8 +75,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" className="scroll-smooth" data-scroll-behavior="smooth">
       <body className={inter.className}>
+        {/* React 19 hoists these into <head>. Analytics tag connections are
+            warmed up before the tags themselves are requested. */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
         {schemas.map((schema, idx) => (
           <script
@@ -82,19 +88,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
           />
         ))}
-        <MotionProvider>
-          <SkipLink />
-          <Navbar />
-          <TrackWhatsAppClicks />
-          <main id="main-content" className="pt-16" tabIndex={-1}>
-            {children}
-          </main>
-          <Footer />
-          {process.env.NEXT_PUBLIC_VERCEL_ENV && <Analytics />}
-          <ScrollToTopWrapper />
-          <CustomScrollbar />
-          <WhatsAppFloat />
-        </MotionProvider>
+        <SkipLink />
+        <Navbar />
+        <TrackWhatsAppClicks />
+        <main id="main-content" className="pt-[var(--nav-h)]" tabIndex={-1}>
+          {children}
+        </main>
+        <Footer />
+        {process.env.NEXT_PUBLIC_VERCEL_ENV && <Analytics />}
+        <ScrollToTopWrapper />
+        <CustomScrollbar />
+        <WhatsAppFloat />
 
         {gaId && <GoogleAnalytics gaId={gaId} />}
         {gtmId && (

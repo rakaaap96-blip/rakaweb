@@ -74,7 +74,7 @@ export default function KarirPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-black text-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] px-6 py-3 font-sans font-black text-sm uppercase tracking-tight hover:bg-yellow-300 hover:text-black hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black focus:ring-offset-white"
-                aria-label="Hubungi RakaWeb via WhatsApp (nomor 6287823268333)"
+                aria-label="Hubungi via WhatsApp - nomor 6287823268333"
               >
                 <MessageCircle size={18} strokeWidth={2} aria-hidden="true" />
                 Hubungi via WhatsApp

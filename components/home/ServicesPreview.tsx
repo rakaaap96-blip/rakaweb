@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'framer-motion'
+// Server Component — no client JS required.
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { servicesData } from '@/data/services'
@@ -36,11 +34,8 @@ export default function ServicesPreview() {
     >
       <Container>
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+        <div
+          className="reveal text-center max-w-3xl mx-auto mb-16 space-y-4"
         >
           <div
             className="inline-block px-4 py-2 bg-black text-white border-2 border-black text-sm font-mono font-black uppercase tracking-wider transform rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
@@ -57,21 +52,14 @@ export default function ServicesPreview() {
           <p className="font-sans text-white font-bold max-w-2xl mx-auto leading-relaxed">
             Pilih layanan yang sesuai dengan kebutuhan bisnis Anda. Kami siap membantu mewujudkan website impian.
           </p>
-        </motion.div>
+        </div>
 
         {/* Grid Layanan */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {services.map((service, idx) => {
+        <div className="reveal-stagger grid md:grid-cols-3 gap-8">
+          {services.map((service) => {
             const IconComponent = service.icon
             return (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="h-full"
-              >
+              <div key={service.title} className="h-full">
                 <div className="relative bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-6 transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] h-full flex flex-col">
                   {/* Icon - dekoratif */}
                   <div
@@ -101,7 +89,7 @@ export default function ServicesPreview() {
                     <ArrowRight size={14} strokeWidth={3} aria-hidden="true" />
                   </Link>
                 </div>
-              </motion.div>
+              </div>
             )
           })}
         </div>

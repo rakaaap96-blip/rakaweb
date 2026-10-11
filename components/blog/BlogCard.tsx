@@ -1,8 +1,6 @@
-'use client'
-
+// Server Component — no client JS required.
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 import { Calendar, User, ArrowUpRight } from 'lucide-react'
 import { Author } from '@/types'
 
@@ -37,17 +35,13 @@ export default function BlogCard({
   })
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05 }}
+    <article
       className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group"
       aria-labelledby={`blog-title-${slug}`}
     >
       <Link
         href={`/blog/${slug}`}
         className="block focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black focus:ring-offset-white h-full flex-col justify-between"
-        aria-label={`Baca artikel: ${title}`}
       >
         <div>
           {/* Container Gambar */}
@@ -63,7 +57,6 @@ export default function BlogCard({
             {/* Badge Waktu Baca */}
             <div
               className="absolute top-3 left-3 bg-yellow-300 text-black border-2 border-black px-2 py-0.5 text-[10px] font-mono font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-              aria-label={`Waktu baca: ${readingTime} menit`}
             >
               {readingTime} Min Read
             </div>
@@ -75,14 +68,12 @@ export default function BlogCard({
             <div className="flex flex-wrap items-center gap-2 mb-4 font-mono text-[11px] font-black uppercase">
               <span
                 className="flex items-center gap-1 bg-primary-100 border-2 border-black px-2 py-0.5 text-primary-900"
-                aria-label={`Penulis: ${displayAuthor}`}
               >
                 <User size={12} strokeWidth={2.5} aria-hidden="true" />
                 <span>{displayAuthor}</span>
               </span>
               <span
                 className="flex items-center gap-1 bg-stone-100 border-2 border-black px-2 py-0.5 text-stone-700"
-                aria-label={`Tanggal publikasi: ${formattedDate}`}
               >
                 <Calendar size={12} strokeWidth={2.5} aria-hidden="true" />
                 <span>{formattedDate}</span>
@@ -114,6 +105,6 @@ export default function BlogCard({
           </div>
         </div>
       </Link>
-    </motion.article>
+    </article>
   )
 }

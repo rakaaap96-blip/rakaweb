@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getAllBlogSlugs, getBlogPost } from '@/lib/mdx'
+import { locations } from '@/lib/locations'
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app').replace(/\/$/, '')
 
@@ -108,5 +109,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   )
 
-  return [...staticPages, ...studycasePages, ...blogPages]
+  // Halaman lokasi kota. Kota utama (Bogor) dapat prioritas lebih tinggi
+  // karena itu target kata kunci utama.
+  const locationPages: MetadataRoute.Sitemap = locations.map((location) => ({
+    url: `${SITE_URL}/jasa-pembuatan-website/${location.slug}`,
+    lastModified: new Date(),
+    changeFrequency: location.isPrimary ? ('weekly' as const) : ('monthly' as const),
+    priority: location.isPrimary ? 0.9 : 0.7,
+  }))
+
+  return [...staticPages, ...locationPages, ...studycasePages, ...blogPages]
 }

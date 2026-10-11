@@ -1,7 +1,6 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import { serialize } from 'next-mdx-remote/serialize'
 import readingTime from 'reading-time'
 import { BlogPost, Author } from '@/types'
 
@@ -38,13 +37,6 @@ export async function getBlogPost(slug: string): Promise<BlogPost> {
   }
   const source = fs.readFileSync(filePath, 'utf-8')
   const { content, data } = matter(source)
-
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [],
-      rehypePlugins: [],
-    },
-  })
 
   const readTime = readingTime(content)
 
@@ -86,7 +78,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost> {
     category: data.category,
     tags: data.tags || [],
     image: data.image,
-    content: mdxSource,
+    content,
   }
 }
 

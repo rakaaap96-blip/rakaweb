@@ -45,6 +45,7 @@ export default async function BlogPage() {
             aria-label="Daftar artikel blog"
           >
             {posts.map((post, idx) => (
+              <div role="listitem" key={post.slug} className="flex">
               <BlogCard
                 key={post.slug}
                 slug={post.slug}
@@ -56,6 +57,7 @@ export default async function BlogPage() {
                 image={post.image}
                 index={idx}
               />
+              </div>
             ))}
           </div>
         )}

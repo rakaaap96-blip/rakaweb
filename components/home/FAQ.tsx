@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, MessageCircle } from 'lucide-react'
-import Container from '@/components/ui/Container' // asumsikan ada komponen Container
+import Container from '@/components/ui/Container'
 import Button from '@/components/ui/Button'
 
 const WA_LINK =
@@ -66,12 +65,8 @@ export default function FAQ() {
       aria-labelledby="faq-heading"
     >
       <Container>
-        {/* Header neubrutalism */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+        <div
+          className="reveal text-center max-w-3xl mx-auto mb-16 space-y-4"
         >
           <div
             className="inline-block px-4 py-2 bg-black text-white border-2 border-black text-sm font-mono font-black uppercase tracking-wider transform rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
@@ -85,22 +80,17 @@ export default function FAQ() {
           <p className="font-sans text-base font-bold text-navy-700 max-w-2xl mx-auto leading-relaxed">
             Masih ragu? Temukan jawaban dari pertanyaan yang paling sering ditanyakan.
           </p>
-        </motion.div>
+        </div>
 
-        {/* FAQ Accordion neubrutalism */}
-        <div className="max-w-3xl mx-auto space-y-5">
+        <div className="reveal-stagger max-w-3xl mx-auto space-y-5">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index
             const panelId = `faq-panel-${index}`
             const buttonId = `faq-button-${index}`
 
             return (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                viewport={{ once: true }}
                 className="bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
               >
                 <button
@@ -120,34 +110,27 @@ export default function FAQ() {
                     aria-hidden="true"
                   />
                 </button>
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      id={panelId}
-                      role="region"
-                      aria-labelledby={buttonId}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="border-t-4 border-black"
-                    >
-                      <p className="p-5 font-sans font-bold text-navy-700 text-sm leading-relaxed">
-                        {faq.answer}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  data-open={isOpen}
+                  inert={!isOpen}
+                  className="accordion-panel border-t-4 border-black"
+                >
+                  <div className="accordion-content">
+                    <p className="p-5 font-sans font-bold text-navy-700 text-sm leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </div>
+                </div>
+              </div>
             )
           })}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-12 text-center space-y-4"
+        <div
+          className="reveal mt-12 text-center space-y-4"
         >
           <p className="font-sans font-bold text-navy-700 max-w-xl mx-auto leading-relaxed">
             Masih ragu? Tanyakan langsung — gratis dan tanpa komitmen. Kami jawab secepatnya.
@@ -155,11 +138,11 @@ export default function FAQ() {
           <Button
             href={WA_LINK}
             icon={<MessageCircle size={18} aria-hidden="true" />}
-            className="bg-green-500 text-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-green-400 hover:text-black hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all font-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black focus:ring-offset-white"
+            className="bg-green-700 text-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-green-500 hover:text-navy-900 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all font-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black focus:ring-offset-white"
           >
             Tanya via WhatsApp
           </Button>
-        </motion.div>
+        </div>
       </Container>
     </section>
   )

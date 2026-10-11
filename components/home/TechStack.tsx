@@ -1,5 +1,4 @@
-'use client'
-
+// Server Component — no client JS required.
 import Container from '@/components/ui/Container'
 import {
   SiReact,
@@ -53,27 +52,30 @@ export default function TechStack() {
       </Container>
 
       <div
-        className="relative w-full overflow-hidden mt-8"
-        aria-label="Daftar teknologi yang kami gunakan (animasi berjalan)"
+        className="relative w-full mt-8 overflow-x-auto overflow-y-hidden md:overflow-hidden"
+        role="img"
+        aria-label="Daftar teknologi yang kami gunakan: React, Next.js, Tailwind CSS, TypeScript, JavaScript, HTML5, CSS3, Git, GitHub, Vercel"
       >
-        <div className="flex animate-marquee">
-          {[...techStack, ...techStack].map((tech, idx) => (
-            <div
-              key={idx}
-              className="shrink-0 mx-4 md:mx-6 flex flex-col items-center gap-3"
-            >
+        <div className="flex w-max animate-marquee">
+          {[0, 1].map((copy) =>
+            techStack.map((tech) => (
               <div
-                className="w-16 h-16 bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                style={tech.bg ? { backgroundColor: tech.bg } : {}}
+                key={`${copy}-${tech.name}`}
+                className="shrink-0 mx-4 md:mx-6 flex flex-col items-center gap-3"
                 aria-hidden="true"
               >
-                <tech.Icon size={32} color={tech.color} aria-hidden="true" />
+                <div
+                  className="w-16 h-16 bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  style={tech.bg ? { backgroundColor: tech.bg } : {}}
+                >
+                  <tech.Icon size={32} color={tech.color} />
+                </div>
+                <span className="font-sans font-black text-sm uppercase tracking-tight text-black">
+                  {tech.name}
+                </span>
               </div>
-              <span className="font-sans font-black text-sm uppercase tracking-tight text-black">
-                {tech.name}
-              </span>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </section>

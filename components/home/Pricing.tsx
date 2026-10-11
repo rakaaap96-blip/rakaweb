@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'framer-motion'
+// Server Component — no client JS required.
 import Link from 'next/link'
 import { ArrowRight, ShieldCheck, CheckCircle } from 'lucide-react'
 import Container from '@/components/ui/Container'
@@ -25,11 +23,8 @@ export default function Pricing() {
       aria-labelledby="pricing-heading"
     >
       <Container>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+        <div
+          className="reveal text-center max-w-3xl mx-auto mb-16 space-y-4"
         >
           <div
             className="inline-block px-4 py-2 bg-black text-white border-2 border-black text-sm font-mono font-black uppercase tracking-wider transform rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
@@ -47,21 +42,14 @@ export default function Pricing() {
             Harga jelas tanpa biaya tersembunyi. Semua paket sudah termasuk desain custom,
             mobile responsive, dan SEO-friendly.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <PricingTable plans={plans} />
-        </motion.div>
+        <div className="reveal">
+          <PricingTable plans={plans} idPrefix="home-pricing" />
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="mt-14 space-y-4"
+        <div
+          className="reveal mt-14 space-y-4"
         >
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 bg-yellow-300 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] p-5 text-center">
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
@@ -88,7 +76,7 @@ export default function Pricing() {
               </Link>
             </p>
           </div>
-        </motion.div>
+        </div>
       </Container>
     </section>
   )

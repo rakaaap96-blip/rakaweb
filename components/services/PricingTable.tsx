@@ -1,6 +1,4 @@
-'use client'
-
-import { useId } from 'react'
+// Server Component — no client JS required.
 import Button from '@/components/ui/Button'
 import { CheckCircle } from 'lucide-react'
 
@@ -14,10 +12,12 @@ interface PricingPlan {
 
 interface PricingTableProps {
   plans: PricingPlan[]
+  /** Unique prefix so multiple tables on one page keep distinct IDs. */
+  idPrefix?: string
 }
 
-export default function PricingTable({ plans }: PricingTableProps) {
-  const headingId = useId()
+export default function PricingTable({ plans, idPrefix = 'pricing' }: PricingTableProps) {
+  const headingId = `${idPrefix}-heading`
 
   return (
     <div
@@ -25,9 +25,12 @@ export default function PricingTable({ plans }: PricingTableProps) {
       role="region"
       aria-labelledby={headingId}
     >
+      <h2 id={headingId} className="sr-only">
+        Pilihan paket dan harga
+      </h2>
       {plans.map((plan, idx) => {
-        const cardId = `pricing-card-${idx}`
-        const headingCardId = `pricing-card-heading-${idx}`
+        const cardId = `${idPrefix}-card-${idx}`
+        const headingCardId = `${idPrefix}-card-heading-${idx}`
 
         return (
           <div

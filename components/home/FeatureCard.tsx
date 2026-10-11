@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { ArrowDownRight, Info, Sparkles, CheckCircle, Shield, TrendingUp } from 'lucide-react'
 import { SiNextdotjs, SiReact, SiTypescript, SiTailwindcss } from 'react-icons/si'
 
@@ -81,37 +80,12 @@ export const featureCards: FeatureCardConfig[] = [
   },
 ]
 
-export const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-}
-
-export const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: 'spring' as const,
-      stiffness: 200,
-      damping: 20,
-    },
-  },
-}
-
 interface FeatureCardProps {
   card: FeatureCardConfig
-  animated?: boolean
   onSelect: (id: string) => void
 }
 
-export default function FeatureCard({ card, animated = false, onSelect }: FeatureCardProps) {
+export default function FeatureCard({ card, onSelect }: FeatureCardProps) {
   const {
     id,
     number,
@@ -141,7 +115,7 @@ export default function FeatureCard({ card, animated = false, onSelect }: Featur
     },
   }
 
-  const baseClass = `p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ${spanClass} group cursor-pointer transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-offset-2`
+  const baseClass = `p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ${spanClass} group cursor-pointer transition-all duration-150 hover:-translate-y-2 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-offset-2`
 
   const inner = (
     <>
@@ -149,18 +123,14 @@ export default function FeatureCard({ card, animated = false, onSelect }: Featur
         <>
           <div className={`flex justify-between items-start ${gapClass}`}>
             <div
-              className={`w-10 h-10 bg-primary-100 border-2 border-black flex items-center justify-center ${iconColor} ${
-                animated ? 'group-hover:scale-110 transition-transform duration-200' : ''
-              }`}
+              className={`w-10 h-10 bg-primary-100 border-2 border-black flex items-center justify-center ${iconColor} group-hover:scale-110 transition-transform duration-200`}
               aria-hidden="true"
             >
               <Icon size={20} />
             </div>
             {number ? (
               <div
-                className={`w-8 h-8 bg-black text-white border-2 border-black flex items-center justify-center font-black text-sm ${
-                  animated ? 'group-hover:bg-yellow-300 group-hover:text-black transition-colors' : ''
-                }`}
+                className="w-8 h-8 bg-black text-white border-2 border-black flex items-center justify-center font-black text-sm group-hover:bg-yellow-300 group-hover:text-black transition-colors"
                 aria-label={`Fitur nomor ${number}`}
               >
                 {number}
@@ -168,16 +138,14 @@ export default function FeatureCard({ card, animated = false, onSelect }: Featur
             ) : CornerIcon ? (
               <CornerIcon
                 size={20}
-                className={`text-navy-400 ${animated ? 'group-hover:translate-x-1 group-hover:translate-y-1 transition-transform' : ''}`}
+                className="text-navy-500 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform"
                 aria-hidden="true"
               />
             ) : null}
           </div>
           <div>
             <h2
-              className={`font-sans font-black text-lg uppercase tracking-tight ${titleGap} ${
-                animated ? 'group-hover:text-primary-600 transition-colors' : ''
-              }`}
+              className={`font-sans font-black text-lg uppercase tracking-tight ${titleGap} group-hover:text-primary-600 transition-colors`}
             >
               {title}
             </h2>
@@ -189,34 +157,28 @@ export default function FeatureCard({ card, animated = false, onSelect }: Featur
               role="group"
               aria-label="Teknologi yang digunakan: Next.js, React, TypeScript, Tailwind CSS"
             >
-              <SiNextdotjs size={24} className={`text-black ${animated ? 'group-hover:scale-110 transition-transform' : ''}`} aria-hidden="true" />
-              <SiReact size={24} className={`text-[#61DAFB] ${animated ? 'group-hover:scale-110 transition-transform' : ''}`} aria-hidden="true" />
-              <SiTypescript size={24} className={`text-[#3178C6] ${animated ? 'group-hover:scale-110 transition-transform' : ''}`} aria-hidden="true" />
-              <SiTailwindcss size={24} className={`text-[#38BDF8] ${animated ? 'group-hover:scale-110 transition-transform' : ''}`} aria-hidden="true" />
+              <SiNextdotjs size={24} className="text-black group-hover:scale-110 transition-transform" aria-hidden="true" />
+              <SiReact size={24} className="text-[#61DAFB] group-hover:scale-110 transition-transform" aria-hidden="true" />
+              <SiTypescript size={24} className="text-[#3178C6] group-hover:scale-110 transition-transform" aria-hidden="true" />
+              <SiTailwindcss size={24} className="text-[#38BDF8] group-hover:scale-110 transition-transform" aria-hidden="true" />
             </div>
           )}
-          {animated && (
-            <div className="mt-3 text-xs font-mono font-bold text-navy-400 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <Info size={12} aria-hidden="true" /> Klik untuk detail
-            </div>
-          )}
+          <div className="mt-3 text-xs font-mono font-bold text-navy-500 flex items-center gap-1 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100 transition-opacity">
+            <Info size={12} aria-hidden="true" /> Klik untuk detail
+          </div>
         </>
       ) : (
         <>
           <div className="flex items-center gap-4">
             <div
-              className={`w-12 h-12 bg-primary-100 border-2 border-black flex items-center justify-center ${iconColor} shrink-0 ${
-                animated ? 'group-hover:scale-110 transition-transform' : ''
-              }`}
+              className={`w-12 h-12 bg-primary-100 border-2 border-black flex items-center justify-center ${iconColor} shrink-0 group-hover:scale-110 transition-transform`}
               aria-hidden="true"
             >
               <Icon size={24} />
             </div>
             <div>
               <h2
-                className={`font-sans font-black text-lg uppercase tracking-tight ${
-                  animated ? 'group-hover:text-primary-600 transition-colors' : ''
-                }`}
+                className="font-sans font-black text-lg uppercase tracking-tight group-hover:text-primary-600 transition-colors"
               >
                 {title}
               </h2>
@@ -225,39 +187,19 @@ export default function FeatureCard({ card, animated = false, onSelect }: Featur
           </div>
           {badge && (
             <div
-              className={`px-3 py-1.5 bg-black text-white text-xs font-mono font-black uppercase tracking-wider shrink-0 border border-black max-sm:w-full text-center ${
-                animated ? 'group-hover:bg-yellow-300 group-hover:text-black transition-colors' : ''
-              }`}
+              className="px-3 py-1.5 bg-black text-white text-xs font-mono font-black uppercase tracking-wider shrink-0 border border-black max-sm:w-full text-center group-hover:bg-yellow-300 group-hover:text-black transition-colors"
               aria-label="Keunggulan: Target Pasar Tepat"
             >
               {badge}
             </div>
           )}
-          {animated && (
-            <div className="sm:hidden text-xs font-mono font-bold text-navy-400 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <Info size={12} aria-hidden="true" /> Klik untuk detail
-            </div>
-          )}
+          <div className="sm:hidden text-xs font-mono font-bold text-navy-500 flex items-center gap-1">
+            <Info size={12} aria-hidden="true" /> Klik untuk detail
+          </div>
         </>
       )}
     </>
   )
-
-  if (animated) {
-    return (
-      <motion.div
-        variants={cardVariants}
-        whileHover={{ y: -8, transition: { type: 'spring', stiffness: 300 }, boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
-        whileTap={{ scale: 0.98 }}
-        className={`${baseClass} ${
-          layout === 'horizontal' ? 'flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4' : 'flex flex-col justify-between'
-        }`}
-        {...clickProps}
-      >
-        {inner}
-      </motion.div>
-    )
-  }
 
   return (
     <div

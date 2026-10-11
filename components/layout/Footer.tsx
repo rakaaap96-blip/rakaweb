@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Mail } from 'lucide-react'
 import { FaTiktok, FaWhatsapp } from 'react-icons/fa'
 import Container from '@/components/ui/Container'
+import { locations } from '@/lib/locations'
 
 // ========== MUDAH MENGUBAH KOORDINAT MAP ==========
 const MAP_LAT = -6.441006   // Ganti dengan latitude yang diinginkan
@@ -20,6 +21,10 @@ const footerLinks = {
     { name: 'Website Bisnis', href: '/jasa-pembuatan-website-company-profile' },
     { name: 'Website Sekolah', href: '/jasa-pembuatan-website-sekolah' },
   ],
+  Lokasi: locations.map((location) => ({
+    name: `Website ${location.city}`,
+    href: `/jasa-pembuatan-website/${location.slug}`,
+  })),
 }
 
 // Link bantuan yang akan diletakkan di kanan bawah footer
@@ -52,6 +57,7 @@ export default function Footer() {
           <div>
             <Link
               href="/"
+              prefetch={false}
               className="inline-block group focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
             >
               <div className="text-2xl font-black uppercase tracking-tight text-black px-2 py-0.5 border-2 border-black group-hover:bg-yellow-300 group-hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all duration-150">
@@ -89,6 +95,7 @@ export default function Footer() {
                   <li key={link.name}>
                     <Link
                       href={link.href}
+                      prefetch={false}
                       className="font-sans font-bold text-navy-700 hover:text-black hover:underline decoration-2 underline-offset-2 transition-all text-sm focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 focus:text-black inline-block"
                     >
                       {link.name}
@@ -131,6 +138,7 @@ export default function Footer() {
               <li key={link.name}>
                 <Link
                   href={link.href}
+                  prefetch={false}
                   className="font-sans font-bold text-navy-700 hover:text-black hover:underline decoration-2 underline-offset-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 focus:text-black"
                 >
                   {link.name}

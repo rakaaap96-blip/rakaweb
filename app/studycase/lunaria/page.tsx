@@ -24,7 +24,7 @@ export default function StudyCaseLunaria() {
 
   return (
     <>
-      <main className="bg-white min-h-screen py-12 overflow-x-hidden">
+      <div className="bg-white min-h-screen py-12 overflow-x-hidden">
         {/* HERO SECTION */}
         <section className="mb-16" aria-labelledby="lunaria-hero-heading">
           <Container>
@@ -51,7 +51,7 @@ export default function StudyCaseLunaria() {
               
               {/* Row 1: Info Proyek & Overview */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Info Proyek</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Info Proyek</h2>
                 <dl className="space-y-4 font-bold">
                   <div className="border-b-2 border-black pb-2">
                     <dt className="text-gray-500 text-sm">Klien</dt>
@@ -65,16 +65,16 @@ export default function StudyCaseLunaria() {
                     <dt className="text-gray-500 text-sm">Kategori</dt>
                     <dd>Luxury Bridal & Experience Design</dd>
                   </div>
+                </dl>
                   <div className="pt-2">
                     <a href="https://lunaria-xi.vercel.app" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-primary-500 hover:underline break-all">
                       lunaria-xi.vercel.app <ExternalLink size={14} />
                     </a>
                   </div>
-                </dl>
               </div>
 
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Overview</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Overview</h2>
                 <p>Lunaria adalah konsep website bridal couture yang berfokus pada pengalaman eksklusif. Alih-alih berfungsi sebagai katalog gaun, website ini dirancang untuk membangun aspirasi, kepercayaan, dan rasa eksklusivitas yang mendorong calon pelanggan untuk melakukan konsultasi.</p>
               </div>
 
@@ -85,7 +85,7 @@ export default function StudyCaseLunaria() {
 
               {/* Row 3: The Challenge & Craftsmanship */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">The Challenge</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">The Challenge</h2>
                 <ul className="space-y-4 font-medium">
                   <li><strong>Premium Brands Often Look Generic:</strong> Banyak brand bridal premium tampil seperti toko online biasa. Nilai eksklusif sulit terasa.</li>
                   <li><strong>Confidence Gap:</strong> Calon pelanggan butuh keyakinan tentang kualitas dan hasil sebelum membuat kontak.</li>
@@ -98,11 +98,11 @@ export default function StudyCaseLunaria() {
 
               {/* Row 4: Design Strategy & 6 Solution Pillars */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Design Strategy</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Design Strategy</h2>
                 <p><strong>Selling the Experience, Not the Product.</strong> Alih-alih fokus menjual gaun, website dirancang untuk menjual perjalanan emosional menuju hari pernikahan. Setiap section dibangun untuk memperkuat persepsi bahwa ini adalah pengalaman personal.</p>
               </div>
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">6 Solution Pillars</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">6 Solution Pillars</h2>
                 <ol className="list-decimal pl-5 space-y-2 font-medium">
                   <li><strong>Luxury First Impression:</strong> Typography elegan dan palet netral.</li>
                   <li><strong>Craftsmanship Showcase:</strong> Menampilkan detail proses.</li>
@@ -134,17 +134,17 @@ export default function StudyCaseLunaria() {
 
               {/* Row 6: Mobile/SEO & Key Takeaways */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Mobile-First & SEO</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Mobile-First & SEO</h2>
                 <p>Website dirancang responsif dengan semantic HTML, hierarki heading yang jelas, dan metadata terorganisir untuk mendukung trafik organik serta kenyamanan pada perangkat mobile.</p>
               </div>
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Key Takeaways</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Key Takeaways</h2>
                 <p>Brand premium tidak hanya menjual produk; mereka menjual perasaan dan kepercayaan. Website ini menerjemahkan nilai tersebut menjadi pengalaman digital yang meyakinkan.</p>
               </div>
 
               {/* Row 7: Outcome */}
               <div className="col-span-full border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Outcome</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Outcome</h2>
                 <p className="italic font-bold">Hasil akhirnya adalah website bridal couture yang membantu membangun persepsi eksklusif, meningkatkan kepercayaan calon pelanggan, dan mendorong konsultasi melalui pengalaman digital yang selaras dengan positioning brand.</p>
               </div>
 
@@ -163,7 +163,7 @@ export default function StudyCaseLunaria() {
             </div>
           </Container>
         </section>
-      </main>
+      </div>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </>

@@ -25,7 +25,7 @@ export default function StudyCaseCoksu() {
 
   return (
     <>
-      <main className="bg-white min-h-screen py-12 overflow-x-hidden">
+      <div className="bg-white min-h-screen py-12 overflow-x-hidden">
         {/* HERO SECTION */}
         <section className="mb-16" aria-labelledby="coksu-hero-heading">
           <Container>
@@ -65,7 +65,7 @@ export default function StudyCaseCoksu() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               {/* Row 1: Info Proyek & Overview */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Info Proyek</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Info Proyek</h2>
                 <dl className="space-y-4 font-bold">
                   <div className="border-b-2 border-black pb-2">
                     <dt className="text-gray-500 text-sm">Klien</dt>
@@ -79,21 +79,21 @@ export default function StudyCaseCoksu() {
                     <dt className="text-gray-500 text-sm">Kategori</dt>
                     <dd>Branding & Landing Page</dd>
                   </div>
-                  <div className="pt-2">
-                    <a
-                      href="https://coksu.vercel.app"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-primary-500 hover:underline break-all"
-                    >
-                      coksu.vercel.app <ExternalLink size={14} aria-hidden="true" />
-                    </a>
-                  </div>
-                </dl>
+                  </dl>
+                <div className="pt-2">
+                  <a
+                    href="https://coksu.vercel.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-primary-500 hover:underline break-all"
+                  >
+                    coksu.vercel.app <ExternalLink size={14} aria-hidden="true" />
+                  </a>
+                </div>
               </div>
 
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Overview</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Overview</h2>
                 <p>
                   COKSU adalah konsep landing page untuk minuman coklat yang menggabungkan dunia kuliner dengan
                   estetika cyberpunk futuristik. Tujuan proyek ini adalah membuktikan bahwa sebuah produk
@@ -116,7 +116,7 @@ export default function StudyCaseCoksu() {
 
               {/* Row 3: The Challenge & SS Product */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">The Challenge</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">The Challenge</h2>
                 <ul className="space-y-4 font-medium">
                   <li>
                     <strong>Lack of Brand Differentiation:</strong> Banyak bisnis memiliki produk yang baik,
@@ -145,7 +145,7 @@ export default function StudyCaseCoksu() {
 
               {/* Row 4: Design Strategy & 6 Solution Pillars */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Design Strategy</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Design Strategy</h2>
                 <p>
                   <strong>Turning Product Information into an Experience.</strong> Alih-alih membuat katalog
                   biasa, saya merancang pengalaman yang membuat pengguna merasa sedang memasuki dunia brand
@@ -153,7 +153,7 @@ export default function StudyCaseCoksu() {
                 </p>
               </div>
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">6 Solution Pillars</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">6 Solution Pillars</h2>
                 <ol className="list-decimal pl-5 space-y-2 font-medium">
                   <li>
                     <strong>Unforgettable First Impression:</strong> Hero dengan grid futuristik, neon effects,
@@ -192,7 +192,7 @@ export default function StudyCaseCoksu() {
 
               {/* Row 6: Visual & Technical / Key Takeaways */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Visual & Technical</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Visual & Technical</h2>
                 <p>
                   <strong>Cyberpunk Aesthetic:</strong> warna gelap dengan aksen neon.{' '}
                   <strong>High Contrast Interface:</strong> meningkatkan readability.{' '}
@@ -201,7 +201,7 @@ export default function StudyCaseCoksu() {
                 </p>
               </div>
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Key Takeaways</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Key Takeaways</h2>
                 <p>
                   Banyak bisnis mencoba menjual produk. Proyek ini berfokus pada bagaimana menjual{' '}
                   <strong>pengalaman dan identitas brand</strong> terlebih dahulu. Website membantu produk
@@ -211,7 +211,7 @@ export default function StudyCaseCoksu() {
 
               {/* Row 7: Outcome (Full) */}
               <div className="col-span-full border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Outcome</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Outcome</h2>
                 <p className="italic font-bold">
                   Hasil akhirnya adalah landing page dengan identitas visual yang kuat, pengalaman pengguna yang
                   imersif, serta struktur yang tetap mendukung tujuan bisnis seperti membangun brand awareness,
@@ -242,7 +242,7 @@ export default function StudyCaseCoksu() {
             </div>
           </Container>
         </section>
-      </main>
+      </div>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </>

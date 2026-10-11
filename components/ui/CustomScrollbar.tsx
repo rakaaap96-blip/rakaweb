@@ -1,126 +1,157 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export default function CustomScrollbar() {
   const [shouldRender, setShouldRender] = useState(false);
-  const [thumbHeight, setThumbHeight] = useState(50);
-  const [thumbTop, setThumbTop] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
-  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const trackRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-  const rafId = useRef<number | null>(null);
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const isDraggingRef = useRef(false);
 
-  // Deteksi apakah device adalah desktop (non-mobile, non-touch)
+  /* Cached geometry. Reading scrollHeight on every scroll event forces a
+     synchronous layout, so it is only re-measured on resize. */
+  const metricsRef = useRef({ windowHeight: 0, documentHeight: 0, trackHeight: 0, maxTop: 0 });
+
   useEffect(() => {
     const checkIsDesktop = () => {
-      // Tidak render di mobile (lebar < 768px) atau device touch
       const isMobileWidth = window.innerWidth < 768;
       const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
       setShouldRender(!isMobileWidth && !isTouchDevice);
     };
     checkIsDesktop();
-    window.addEventListener('resize', checkIsDesktop);
+    window.addEventListener('resize', checkIsDesktop, { passive: true });
     return () => window.removeEventListener('resize', checkIsDesktop);
   }, []);
 
-  const showScrollbar = useCallback(() => {
-    setIsVisible(true);
+  /* Writes geometry straight to the DOM node. No React state, so scrolling
+     never triggers a re-render or style recalculation. */
+  const paint = useCallback(() => {
+    const thumb = thumbRef.current;
+    if (!thumb) return;
+
+    const { windowHeight, documentHeight, trackHeight } = metricsRef.current;
+    if (documentHeight <= windowHeight || trackHeight === 0) {
+      thumb.style.height = `${windowHeight * 0.5}px`;
+      thumb.style.transform = 'translateY(0px)';
+      return;
+    }
+
+    const thumbHeight = Math.max(30, (windowHeight / documentHeight) * trackHeight);
+    const maxTop = trackHeight - thumbHeight;
+    metricsRef.current.maxTop = maxTop;
+
+    const scrollPercent = window.scrollY / (documentHeight - windowHeight);
+    thumb.style.height = `${thumbHeight}px`;
+    thumb.style.transform = `translateY(${Math.max(0, Math.min(1, scrollPercent)) * maxTop}px)`;
+  }, []);
+
+  const measure = useCallback(() => {
+    metricsRef.current.windowHeight = window.innerHeight;
+    metricsRef.current.documentHeight = document.documentElement.scrollHeight;
+    metricsRef.current.trackHeight = window.innerHeight * 0.5;
+    paint();
+  }, [paint]);
+
+  const scheduleHide = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.style.opacity = '1';
+    track.style.pointerEvents = 'auto';
     if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
     hideTimeoutRef.current = setTimeout(() => {
-      if (!isDragging.current) setIsVisible(false);
+      if (isDraggingRef.current) return;
+      track.style.opacity = '0';
+      track.style.pointerEvents = 'none';
     }, 500);
   }, []);
-
-  const updateThumb = useCallback(() => {
-    if (rafId.current) cancelAnimationFrame(rafId.current);
-    rafId.current = requestAnimationFrame(() => {
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const scrollTop = window.scrollY;
-
-      if (documentHeight <= windowHeight) {
-        setThumbHeight(windowHeight * 0.5);
-        setThumbTop(0);
-        return;
-      }
-
-      const trackHeight = windowHeight * 0.5;
-      const thumbPercent = windowHeight / documentHeight;
-      let newThumbHeight = thumbPercent * trackHeight;
-      newThumbHeight = Math.max(30, newThumbHeight);
-      setThumbHeight(newThumbHeight);
-
-      const maxThumbTop = trackHeight - newThumbHeight;
-      const scrollPercent = scrollTop / (documentHeight - windowHeight);
-      setThumbTop(scrollPercent * maxThumbTop);
-    });
-  }, []);
-
-  const handleThumbDrag = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    isDragging.current = true;
-    showScrollbar();
-    const startY = e.clientY;
-    const startTop = thumbTop;
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    const trackHeight = windowHeight * 0.5;
-    const maxThumbTop = trackHeight - thumbHeight;
-
-    const onMouseMove = (moveEvent: MouseEvent) => {
-      if (!isDragging.current) return;
-      requestAnimationFrame(() => {
-        let newTop = startTop + (moveEvent.clientY - startY);
-        newTop = Math.min(Math.max(0, newTop), maxThumbTop);
-        setThumbTop(newTop);
-        const scrollPercent = newTop / maxThumbTop;
-        window.scrollTo({
-          top: scrollPercent * (documentHeight - windowHeight),
-          behavior: 'auto',
-        });
-        showScrollbar();
-      });
-    };
-
-    const onMouseUp = () => {
-      isDragging.current = false;
-      hideTimeoutRef.current = setTimeout(() => setIsVisible(false), 500);
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  }, [thumbTop, thumbHeight, showScrollbar]);
 
   useEffect(() => {
     if (!shouldRender) return;
 
-    updateThumb();
-    const onWindowScroll = () => {
-      updateThumb();
-      showScrollbar();
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      rafRef.current = requestAnimationFrame(() => {
+        paint();
+        scheduleHide();
+        ticking = false;
+      });
     };
-    window.addEventListener('scroll', onWindowScroll);
-    window.addEventListener('resize', updateThumb);
+
+    measure();
+    scheduleHide();
+
+    /* passive: true is essential — a blocking scroll listener stalls
+       scrolling on every frame. */
+    window.addEventListener('scroll', onScroll, { passive: true });
+    const onResize = () => {
+      measure();
+      scheduleHide();
+    };
+    window.addEventListener('resize', onResize, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', onWindowScroll);
-      window.removeEventListener('resize', updateThumb);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
       if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-      if (rafId.current) cancelAnimationFrame(rafId.current);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [shouldRender, updateThumb, showScrollbar]);
+  }, [shouldRender, measure, scheduleHide, paint]);
 
-  // Tidak render di mobile atau touch device
+  const handleThumbDrag = (e: React.MouseEvent) => {
+    e.preventDefault();
+    isDraggingRef.current = true;
+    scheduleHide();
+
+    const startY = e.clientY;
+    const thumb = thumbRef.current;
+    const startTop = thumb ? new DOMMatrixReadOnly(getComputedStyle(thumb).transform).m42 : 0;
+
+    const onMouseMove = (moveEvent: MouseEvent) => {
+      if (!isDraggingRef.current) return;
+      const { documentHeight, windowHeight, maxTop } = metricsRef.current;
+      if (maxTop <= 0) return;
+      const nextTop = Math.min(Math.max(0, startTop + (moveEvent.clientY - startY)), maxTop);
+      if (thumb) thumb.style.transform = `translateY(${nextTop}px)`;
+      window.scrollTo({
+        top: (nextTop / maxTop) * (documentHeight - windowHeight),
+        behavior: 'auto',
+      });
+    };
+
+    const onMouseUp = () => {
+      isDraggingRef.current = false;
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+      scheduleHide();
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
+
+  /* The track advertises cursor:pointer, so make it actually jump. */
+  const handleTrackClick = (e: React.MouseEvent) => {
+    if (e.target !== trackRef.current) return;
+    const track = trackRef.current;
+    if (!track) return;
+    const { documentHeight, windowHeight, trackHeight, maxTop } = metricsRef.current;
+    if (maxTop <= 0 || trackHeight === 0) return;
+    const clickedY = e.clientY - track.getBoundingClientRect().top;
+    const ratio = Math.min(Math.max(0, clickedY) / trackHeight, 1);
+    window.scrollTo({ top: ratio * (documentHeight - windowHeight), behavior: 'smooth' });
+  };
+
   if (!shouldRender) return null;
 
   return (
     <div
       ref={trackRef}
+      onClick={handleTrackClick}
       style={{
         position: 'fixed',
         right: '20px',
@@ -132,19 +163,19 @@ export default function CustomScrollbar() {
         border: '2px solid black',
         zIndex: 9999,
         cursor: 'pointer',
-        opacity: isVisible ? 1 : 0,
+        opacity: 0,
+        pointerEvents: 'none',
         transition: 'opacity 0.15s ease-in-out',
-        pointerEvents: isVisible ? 'auto' : 'none',
       }}
     >
       <div
         ref={thumbRef}
         style={{
           position: 'absolute',
-          top: thumbTop,
+          top: 0,
           left: 0,
           width: '100%',
-          height: thumbHeight,
+          willChange: 'transform',
           backgroundColor: 'black',
           border: '1px solid white',
           cursor: 'grab',

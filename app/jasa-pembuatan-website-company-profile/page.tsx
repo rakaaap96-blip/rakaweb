@@ -21,8 +21,14 @@ export default function CompanyProfilePage() {
     periode: 'Uang Muka 50%',
   }))
 
+  // H1 eksplisit. Sebelumnya memakai data.title yang menyebut "Website Bisnis"
+  // sehingga tidak sinkron dengan judul halaman ("Company Profile") dan
+  // kata kunci "di Bogor" hilang.
+  const mainTitle = 'Jasa Pembuatan Website'
+  const highlight = 'Company Profile di Bogor'
+
   const schemas = buildServiceSchemas({
-    title: data.title,
+    title: 'Jasa Pembuatan Website Company Profile di Bogor',
     description: data.description,
     slug: '/jasa-pembuatan-website-company-profile',
     pricing: data.pricing,
@@ -48,7 +54,7 @@ export default function CompanyProfilePage() {
               id="hero-heading"
               className="font-display text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tighter leading-tight"
             >
-              {data.title.split('Website Bisnis')[0]} <span className="text-yellow-300">Website Bisnis</span>
+              {mainTitle} <span className="text-yellow-300">{highlight}</span>
             </h1>
             <p className="font-sans text-base md:text-lg font-bold text-white bg-black/20 p-3 border-2 border-black max-w-2xl mx-auto leading-relaxed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               {data.description}
@@ -187,7 +193,7 @@ export default function CompanyProfilePage() {
             >
               Siap Tingkatkan <span className="text-yellow-300">Kredibilitas Perusahaan?</span>
             </h2>
-            <p className="font-sans text-base font-bold text-white/90 max-w-xl mx-auto">
+            <p className="font-sans text-base font-bold text-white max-w-xl mx-auto">
               Dapatkan website company profile profesional sekarang juga. Konsultasi gratis tanpa biaya.
             </p>
             <Button

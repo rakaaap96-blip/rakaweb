@@ -1,4 +1,5 @@
 import { generateMetadata } from '@/lib/seo'
+import '../prose.css'
 import Container from '@/components/ui/Container'
 
 export const metadata = generateMetadata({

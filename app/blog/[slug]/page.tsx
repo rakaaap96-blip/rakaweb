@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import '../../prose.css'
 import type { Metadata } from 'next'
 import fs from 'fs'
 import path from 'path'

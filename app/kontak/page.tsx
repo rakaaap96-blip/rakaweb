@@ -2,7 +2,6 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { motion } from 'framer-motion'
 import { MapPin, Mail, Clock, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import Button from '@/components/ui/Button'
@@ -82,10 +81,10 @@ export default function KontakPage() {
   }
 
   const contactInfo = [
-    { icon: MapPin, title: 'Alamat', detail: 'Bogor, Jawa Barat, Indonesia', link: null, a11yLabel: 'Alamat RakaWeb' },
-    { icon: FaWhatsapp, title: 'WhatsApp', detail: '+62 878-2326-8333', link: 'https://wa.me/6287823268333', a11yLabel: 'WhatsApp RakaWeb' },
-    { icon: Mail, title: 'Email', detail: 'rakaaa.p96@gmail.com', link: 'mailto:rakaaa.p96@gmail.com', a11yLabel: 'Email RakaWeb' },
-    { icon: Clock, title: 'Jam Kerja', detail: 'Senin - Jumat, 09:00 - 18:00 WIB', link: null, a11yLabel: 'Jam kerja RakaWeb' },
+    { icon: MapPin, title: 'Alamat', detail: 'Bogor, Jawa Barat, Indonesia', link: null },
+    { icon: FaWhatsapp, title: 'WhatsApp', detail: '+62 878-2326-8333', link: 'https://wa.me/6287823268333' },
+    { icon: Mail, title: 'Email', detail: 'rakaaa.p96@gmail.com', link: 'mailto:rakaaa.p96@gmail.com' },
+    { icon: Clock, title: 'Jam Kerja', detail: 'Senin - Jumat, 09:00 - 18:00 WIB', link: null },
   ]
 
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rakawebpro.vercel.app').replace(/\/$/, '')
@@ -136,17 +135,14 @@ export default function KontakPage() {
       <section className="py-20 bg-white border-b-8 border-black">
         <Container>
           <div className="grid lg:grid-cols-2 gap-12">
-            <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+            <div className="reveal-left">
               <h2 className="font-sans font-black text-2xl uppercase tracking-tighter mb-6 flex items-center gap-2">
                 <span aria-hidden="true">📞</span> Informasi Kontak
               </h2>
-              <div className="space-y-4">
-                {contactInfo.map((item, idx) => (
-                  <motion.div
+              <div className="reveal-stagger space-y-4">
+                {contactInfo.map((item) => (
+                  <div
                     key={item.title}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.1 }}
                     className="flex items-center gap-4 p-4 bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
                   >
                     <div className="w-10 h-10 bg-primary-100 border-2 border-black flex items-center justify-center text-primary-500" aria-hidden="true">
@@ -155,14 +151,14 @@ export default function KontakPage() {
                     <div>
                       <p className="font-sans font-black text-sm uppercase tracking-tight">{item.title}</p>
                       {item.link ? (
-                        <a href={item.link} className="font-sans font-bold text-navy-700 hover:text-black hover:underline text-sm" aria-label={item.a11yLabel}>
+                        <a href={item.link} className="font-sans font-bold text-navy-700 hover:text-black hover:underline text-sm">
                           {item.detail}
                         </a>
                       ) : (
-                        <p className="font-sans font-bold text-navy-700 text-sm" aria-label={item.a11yLabel}>{item.detail}</p>
+                        <p className="font-sans font-bold text-navy-700 text-sm">{item.detail}</p>
                       )}
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
               <div className="mt-8 p-4 bg-primary-50 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
@@ -170,9 +166,9 @@ export default function KontakPage() {
                   <span aria-hidden="true">💡</span> Butuh respon cepat? Hubungi kami langsung via WhatsApp.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+            <div className="reveal-right">
               <form onSubmit={handleSubmit} className="bg-white border-4 border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] p-6 space-y-5 transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
                 <h3 className="font-sans font-black text-xl uppercase tracking-tighter">Kirim Pesan</h3>
 
@@ -282,7 +278,7 @@ export default function KontakPage() {
                   </div>
                 )}
               </form>
-            </motion.div>
+            </div>
           </div>
         </Container>
       </section>

@@ -216,7 +216,7 @@ export default function TentangPage() {
             >
               Hentikan Kebocoran Anggaran Digital Bisnis Anda.
             </h2>
-            <p className="font-sans font-bold text-white/90">
+            <p className="font-sans font-bold text-white">
               Menjaga ekosistem pertumbuhan produk Anda tetap sehat jauh lebih menguntungkan daripada memperbaiki sistem murah yang rapuh.
             </p>
             <Button

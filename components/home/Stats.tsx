@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'framer-motion'
+// Server Component — no client JS required.
 import { Globe, Star, MessageCircle, Timer } from 'lucide-react'
 import Container from '@/components/ui/Container'
 
@@ -56,16 +54,12 @@ export default function Stats() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, idx) => {
+        <div className="reveal-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {stats.map((stat) => {
             const IconComponent = stat.icon
             return (
-              <motion.div
+              <div
                 key={stat.label}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.08 }}
                 className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-6 flex flex-col items-center text-center transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
               >
                 <div
@@ -83,7 +77,7 @@ export default function Stats() {
                 <p className="mt-1 font-sans font-bold text-xs text-navy-600 leading-relaxed">
                   {stat.detail}
                 </p>
-              </motion.div>
+              </div>
             )
           })}
         </div>

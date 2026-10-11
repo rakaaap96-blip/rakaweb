@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'framer-motion'
+// Server Component — no client JS required.
 import Link from 'next/link'
 import { ArrowRight, LucideIcon } from 'lucide-react'
 
@@ -22,12 +20,8 @@ export default function ServiceCard({
   index = 0,
 }: ServiceCardProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all"
+    <div
+      className="reveal bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all"
       role="article"
       aria-labelledby={`service-title-${index}`}
     >
@@ -48,6 +42,6 @@ export default function ServiceCard({
           <ArrowRight size={16} aria-hidden="true" />
         </Link>
       </div>
-    </motion.div>
+    </div>
   )
 }

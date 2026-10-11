@@ -1,0 +1,66 @@
+/* ==========================================================
+   LONG-FORM PROSE STYLES
+   Imported only by the routes that render rich text (/blog/[slug],
+   /terms, /privacy) so the @tailwindcss/typography plugin and the
+   article styles stay out of the render-blocking stylesheet that
+   every other page has to download.
+   ========================================================== */
+
+@plugin "@tailwindcss/typography";
+
+/* === NEUBRUTALISM PROSE === */
+.prose {
+  max-width: 100%;
+  color: #0f172a;
+  overflow-wrap: break-word;
+}
+.prose h1,
+.prose h2,
+.prose h3 {
+  font-weight: 900;
+  color: #000;
+  text-transform: uppercase;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+/* Ukuran heading fluid: enak dibaca di 320px sampai desktop lebar. */
+.prose h1 {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+}
+.prose h2 {
+  font-size: clamp(1.4rem, 3.5vw, 1.875rem);
+}
+.prose h3 {
+  font-size: clamp(1.15rem, 3vw, 1.5rem);
+}
+.prose p {
+  margin-bottom: 1.25rem;
+  line-height: 1.8;
+  font-weight: 700;
+}
+.prose blockquote {
+  border: 4px solid #000;
+  background: #f8fafc;
+  padding: 1.5rem;
+  box-shadow: 6px 6px 0px 0px #000;
+  margin: 2rem 0;
+}
+.prose img {
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0px 0px #000;
+  max-width: 100%;
+  height: auto;
+}
+/* Blok kode & tabel lebar tetap bisa dibaca di layar kecil. */
+.prose pre {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+.prose :where(code):not(:where(pre *)) {
+  overflow-wrap: anywhere;
+}

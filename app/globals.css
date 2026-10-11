@@ -1,70 +1,215 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
 @theme {
   --color-primary-500: #4169E1;
+
+  /* Full primary scale. Previously only primary-500 existed, so classes
+     like bg-primary-100 / text-primary-600 silently generated no CSS. */
+  --color-primary-50: #EEF2FF;
+  --color-primary-100: #E0E7FF;
+  --color-primary-200: #C7D2FE;
+  --color-primary-300: #A5B4FC;
+  --color-primary-600: #2F4FB8;
+  --color-primary-700: #274094;
+  --color-primary-800: #1F3170;
+  --color-primary-900: #1A2A5E;
+
+  /* Full navy scale. navy-800 keeps its original brand value. */
+  --color-navy-50: #F8FAFC;
+  --color-navy-100: #F1F5F9;
+  --color-navy-200: #E2E8F0;
+  --color-navy-300: #CBD5E1;
+  --color-navy-400: #94A3B8;
+  --color-navy-500: #64748B;
+  --color-navy-600: #475569;
+  --color-navy-700: #334155;
   --color-navy-800: #0F172A;
+  --color-navy-900: #020617;
+
   --font-sans: "Inter", system-ui, sans-serif;
 }
 
 @layer base {
+  :root {
+    /* Single source of truth for the fixed navbar height. Used by the main
+       content offset, the hero bleed, and anchor scroll margins so nothing
+       ever hides behind the navbar. */
+    --nav-h: 4rem;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+  }
+
   html, body {
-    overflow: auto;
+    /* The document itself stays scrollbar-free (the CustomScrollbar paints
+       one on desktop). Inner scroll areas keep their native scrollbar so
+       they remain discoverable/touch-scrollable. */
     scrollbar-width: none;
     -ms-overflow-style: none;
+    /* Clip horizontal overflow from rotated elements and slide-in reveals
+       instead of allowing an accidental sideways scroll on any device. */
+    overflow-x: clip;
   }
   html::-webkit-scrollbar,
   body::-webkit-scrollbar {
     display: none;
   }
+
   body {
     color: var(--color-navy-800);
     font-family: var(--font-sans);
+    min-height: 100dvh;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+    overflow-wrap: break-word;
   }
-  /* Hilangkan juga scrollbar pada semua elemen (opsional) */
-  * {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+
+  /* Anchor targets clear the fixed navbar on every page. */
+  [id] {
+    scroll-margin-top: calc(var(--nav-h) + 1rem);
   }
-  *::-webkit-scrollbar {
-    display: none;
+
+  /* One consistent, high-contrast focus ring for keyboard users. */
+  :focus-visible {
+    outline: 3px solid #000;
+    outline-offset: 2px;
   }
 }
-/* sisanya sama seperti dulu ... */
 
 @utility container-custom {
+  width: 100%;
   max-width: 80rem;
   margin-inline: auto;
-  padding-inline: 1rem;
+  /* Fluid gutter: comfortable on a 320px phone and on a 4K monitor. */
+  padding-inline: clamp(1rem, 4vw, 2rem);
 }
 
-/* === NEUBRUTALISM PROSE === */
-.prose {
-  max-width: 100%;
-  color: #0f172a;
+/* ==========================================================
+   MOTION SYSTEM
+   Zero-JS replacement for framer-motion.
+   Elements are fully visible by default; scroll-reveal only
+   engages where CSS scroll-driven animations are supported.
+
+   All reveals are TRANSFORM-ONLY on purpose:
+   animating opacity blends text into its background, which
+   fails WCAG contrast for partially-faded elements and also
+   delays Largest Contentful Paint.
+   ========================================================== */
+
+@keyframes reveal-up {
+  from { transform: translate3d(0, 22px, 0); }
+  to   { transform: translate3d(0, 0, 0); }
 }
-.prose h1,
-.prose h2,
-.prose h3 {
-  font-weight: 900;
-  color: #000;
-  text-transform: uppercase;
+@keyframes reveal-up-lg {
+  from { transform: translate3d(0, 44px, 0); }
+  to   { transform: translate3d(0, 0, 0); }
 }
-.prose p {
-  margin-bottom: 1.25rem;
-  line-height: 1.8;
-  font-weight: 700;
+@keyframes reveal-left {
+  from { transform: translate3d(-28px, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
 }
-.prose blockquote {
-  border: 4px solid #000;
-  background: #f8fafc;
-  padding: 1.5rem;
-  box-shadow: 6px 6px 0px 0px #000;
-  margin: 2rem 0;
+@keyframes reveal-right {
+  from { transform: translate3d(28px, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
 }
-.prose img {
-  border: 4px solid #000;
-  box-shadow: 8px 8px 0px 0px #000;
+@keyframes reveal-scale {
+  from { transform: scale(0.94); }
+  to   { transform: scale(1); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal,
+    .reveal-up,
+    .reveal-left,
+    .reveal-right,
+    .reveal-scale {
+      animation-timeline: view();
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-duration: 1ms; /* ignored on a view timeline, keeps validators happy */
+      animation-range: cover 0% cover 30%;
+    }
+
+    .reveal      { animation-name: reveal-up; }
+    .reveal-up   { animation-name: reveal-up-lg; }
+    .reveal-left { animation-name: reveal-left; }
+    .reveal-right{ animation-name: reveal-right; }
+    .reveal-scale{ animation-name: reveal-scale; }
+
+    /* Staggered children: each child finishes a little later than the last. */
+    .reveal-stagger > * {
+      animation-name: reveal-up;
+      animation-timeline: view();
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-range: cover 0% cover 28%;
+    }
+    .reveal-stagger > *:nth-child(1) { animation-range: cover 0% cover 28%; }
+    .reveal-stagger > *:nth-child(2) { animation-range: cover 0% cover 31%; }
+    .reveal-stagger > *:nth-child(3) { animation-range: cover 0% cover 34%; }
+    .reveal-stagger > *:nth-child(4) { animation-range: cover 0% cover 37%; }
+    .reveal-stagger > *:nth-child(5) { animation-range: cover 0% cover 40%; }
+    .reveal-stagger > *:nth-child(6) { animation-range: cover 0% cover 43%; }
+  }
+}
+
+/* Entrance animation for above-the-fold content. Transform-only, so it
+   never delays Largest Contentful Paint nor alters colour contrast. */
+@keyframes pop-in {
+  from { transform: translate3d(0, 14px, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pop-in { animation: pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .pop-in-delay-1 { animation-delay: 0.06s; }
+  .pop-in-delay-2 { animation-delay: 0.12s; }
+  .pop-in-delay-3 { animation-delay: 0.18s; }
+}
+
+/* === ACCORDION (CSS grid-rows trick, no JS measuring) === */
+.accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.accordion-panel > .accordion-content {
+  overflow: hidden;
+  min-height: 0;
+}
+.accordion-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+/* === MODAL === */
+@keyframes modal-overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes modal-dialog-in {
+  from { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.96); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .modal-overlay { animation: modal-overlay-in 0.2s ease-out both; }
+  .modal-dialog  { animation: modal-dialog-in 0.25s cubic-bezier(0.22, 1, 0.36, 1) both; }
+}
+
+/* === BACK-TO-TOP (stays mounted, toggled by data-visible) === */
+.scroll-to-top {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 20px, 0);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+.scroll-to-top[data-visible="true"] {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
 }
 
 /* Marquee animation for TechStack */
@@ -77,13 +222,11 @@
   width: fit-content;
 }
 
-@media (max-width: 768px) {
+/* Di bawah md, marquee statis tapi bisa di-swipe horizontal (lihat TechStack),
+   supaya daftar teknologi tidak terpotong di layar kecil. */
+@media (max-width: 767px) {
   .animate-marquee {
     animation: none;
-  }
-  [data-animate-on-scroll] {
-    opacity: 1 !important;
-    transform: none !important;
   }
 }
 
@@ -98,6 +241,7 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
   .animate-marquee {
     animation: none !important;

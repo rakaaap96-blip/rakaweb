@@ -24,7 +24,7 @@ export default function StudyCaseRobekBakery() {
 
   return (
     <>
-      <main className="bg-white min-h-screen py-12 overflow-x-hidden">
+      <div className="bg-white min-h-screen py-12 overflow-x-hidden">
         {/* HERO SECTION */}
         <section className="mb-16" aria-labelledby="robek-hero-heading">
           <Container>
@@ -51,7 +51,7 @@ export default function StudyCaseRobekBakery() {
               
               {/* Row 1: Info Proyek & Overview */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Info Proyek</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Info Proyek</h2>
                 <dl className="space-y-4 font-bold">
                   <div className="border-b-2 border-black pb-2">
                     <dt className="text-gray-500 text-sm">Klien</dt>
@@ -65,16 +65,16 @@ export default function StudyCaseRobekBakery() {
                     <dt className="text-gray-500 text-sm">Kategori</dt>
                     <dd>Branding & Ecommerce</dd>
                   </div>
+                </dl>
                   <div className="pt-2">
                     <a href="https://robek.vercel.app" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-primary-500 hover:underline break-all">
                       robek.vercel.app <ExternalLink size={14} />
                     </a>
                   </div>
-                </dl>
               </div>
 
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Overview</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Overview</h2>
                 <p>Robek Bakery adalah platform digital premium bagi brand roti artisan dengan estetika klasik. Website ini mengintegrasikan narasi tentang keahlian tradisional dengan teknologi modern untuk mentransformasi cara pelanggan mengapresiasi roti, fokus pada filosofi bahan dan proses fermentasi alami.</p>
               </div>
 
@@ -85,7 +85,7 @@ export default function StudyCaseRobekBakery() {
 
               {/* Row 3: The Challenge & Product */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">The Challenge</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">The Challenge</h2>
                 <ul className="space-y-4 font-medium">
                   <li><strong>Produk Sulit Dibedakan:</strong> Pelanggan sering membandingkan harga tanpa memahami nilai kualitas artisan.</li>
                   <li><strong>Kurangnya Kepercayaan:</strong> Ketiadaan pengalaman sensorik langsung (aroma/tekstur) di dunia digital.</li>
@@ -99,11 +99,11 @@ export default function StudyCaseRobekBakery() {
 
               {/* Row 4: Design Strategy & 5 Solution Pillars */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Design Strategy</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Design Strategy</h2>
                 <p><strong>Story First, Product Second.</strong> Kami membalik alur tradisional dengan membangun emosi dan persepsi kualitas tinggi melalui storytelling sebelum memaparkan pilihan produk dan harga.</p>
               </div>
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">5 Solution Pillars</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">5 Solution Pillars</h2>
                 <ol className="list-decimal pl-5 space-y-2 font-medium">
                   <li><strong>First Impression:</strong> Hero section dengan value proposition yang kuat.</li>
                   <li><strong>Product Explore:</strong> Card layout yang clean dan informatif.</li>
@@ -120,11 +120,11 @@ export default function StudyCaseRobekBakery() {
 
               {/* Row 6: Visual & Technical / Outcome */}
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Visual & Technical</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Visual & Technical</h2>
                 <p>Menggunakan palet warna hangat untuk nuansa artisan, fotografi produk yang menonjolkan tekstur, serta pendekatan <strong>Mobile-First</strong>. Kami memastikan fondasi SEO dan performa tetap ringan untuk konversi maksimal.</p>
               </div>
               <div className="border-4 border-black p-6 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-black text-xl mb-4 uppercase text-primary-500">Outcome</h3>
+                <h2 className="font-black text-xl mb-4 uppercase text-primary-500">Outcome</h2>
                 <p className="italic font-bold">Banyak bisnis menjual produk. Website ini berhasil menjual *alasan* mengapa pelanggan harus memilih mereka, menjembatani kesenjangan emosional dan mengubah pengunjung menjadi pelanggan setia.</p>
               </div>
 
@@ -143,7 +143,7 @@ export default function StudyCaseRobekBakery() {
             </div>
           </Container>
         </section>
-      </main>
+      </div>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </>

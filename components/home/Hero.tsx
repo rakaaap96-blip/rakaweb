@@ -1,13 +1,12 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import Button from '@/components/ui/Button'
 import Container from '@/components/ui/Container'
 import Modal from '@/components/ui/Modal'
 import { trackEvent } from '@/lib/analytics'
 import { ArrowRight, Play, CheckCircle, Shield, Check, MessageCircle } from 'lucide-react'
-import FeatureCard, { featureCards, containerVariants } from '@/components/home/FeatureCard'
+import FeatureCard, { featureCards } from '@/components/home/FeatureCard'
 
 const WA_LINK =
   'https://wa.me/6287823268333?text=Halo%20RakaWeb%2C%20saya%20tertarik%20untuk%20konsultasi%20gratis.'
@@ -59,29 +58,21 @@ const featureDetails: Record<
 }
 
 export default function Hero() {
-  const [isMobile, setIsMobile] = useState(false)
   const [activeFeature, setActiveFeature] = useState<string | null>(null)
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
-
-  const handleCardClick = (cardId: string) => {
+  const handleCardClick = useCallback((cardId: string) => {
     setActiveFeature(cardId)
     trackEvent('hero_feature_modal_open', { feature: cardId })
-  }
+  }, [])
+
+  const handleClose = useCallback(() => setActiveFeature(null), [])
 
   const activeDetail = activeFeature ? featureDetails[activeFeature] : null
 
   const featureModal = (
     <Modal
       open={!!activeFeature}
-      onClose={() => setActiveFeature(null)}
+      onClose={handleClose}
       title={activeFeature ? featureDetails[activeFeature].title : ''}
       badge={activeDetail?.badge}
       footer={
@@ -89,7 +80,7 @@ export default function Hero() {
           href={WA_LINK}
           fullWidth
           icon={<MessageCircle size={18} aria-hidden="true" />}
-          className="bg-green-500 text-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-green-400 hover:text-black hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all font-black"
+          className="bg-green-700 text-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-green-500 hover:text-navy-900 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all font-black"
         >
           Konsultasi via WhatsApp
         </Button>
@@ -113,33 +104,41 @@ export default function Hero() {
     </Modal>
   )
 
-  // VERSI MOBILE: Tanpa animasi (LCP langsung muncul)
-  if (isMobile) {
-    return (
-      <>
+  /* Single responsive tree. No client-side viewport branching, so the
+     server HTML is final: no hydration mismatch and no re-render of the
+     LCP element after JS boots. */
+  return (
+    <>
       <section
-        className="relative -mt-16 bg-primary-500 text-navy-900 overflow-hidden border-b-8 border-black px-4"
+        className="relative bg-primary-500 text-navy-900 overflow-hidden border-b-8 border-black"
         aria-labelledby="hero-heading"
       >
         <div className="pt-24 pb-16 flex items-center justify-center w-full">
           <Container className="relative z-10 w-full flex flex-col items-center">
-            {/* Header Hero - tanpa motion */}
             <div className="text-center max-w-3xl mb-8 space-y-4">
-              <div className="inline-block px-4 py-1.5 bg-black text-white border-2 border-white text-xs sm:text-sm font-mono font-black tracking-widest uppercase transform rotate-1 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]" aria-hidden="true">
+              <div
+                className="pop-in inline-block px-4 py-1.5 bg-black text-white border-2 border-white text-xs sm:text-sm font-mono font-black tracking-widest uppercase transform rotate-1 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
+                aria-hidden="true"
+              >
                 <span className="mr-2" aria-hidden="true">🔥</span>
                 Jasa Pembuatan Website & Desain Web Profesional
               </div>
 
-              <h1 id="hero-heading" className="font-display text-3xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none bg-black p-4 md:p-5 border-4 border-yellow-300 shadow-[8px_8px_0px_0px_rgba(255,255,0,1)] inline-block transform -rotate-1">
-                JASA PEMBUATAN <br />
-                <span className="text-yellow-300">WEBSITE PROFESIONAL</span>
+              {/* LCP element — deliberately no opacity animation so it
+                  paints immediately on first frame. */}
+              <h1
+                id="hero-heading"
+                className="font-display text-3xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none bg-black p-4 md:p-5 border-4 border-yellow-300 shadow-[8px_8px_0px_0px_rgba(255,255,0,1)] inline-block transform -rotate-1"
+              >
+                JASA PEMBUATAN WEBSITE <br />
+                <span className="text-yellow-300">PROFESIONAL DI BOGOR</span>
               </h1>
 
               <p className="font-sans text-xs sm:text-base font-bold text-white bg-black/30 p-3 border-2 border-black max-w-xl mx-auto leading-relaxed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 Jasa pembuatan website UMKM & perusahaan yang cepat, responsif, dan SEO-friendly. Mulai dari <span className="font-black text-yellow-300 underline decoration-4 decoration-black">Rp 999.000</span>.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-1">
+              <div className="pop-in-delay-1 flex flex-col sm:flex-row gap-4 justify-center pt-1">
                 <Button
                   href="/kontak"
                   size="lg"
@@ -159,7 +158,7 @@ export default function Hero() {
                 </Button>
               </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-2 pt-2" aria-hidden="true">
+              <div className="pop-in-delay-2 flex flex-wrap items-center justify-center gap-2 pt-2" aria-hidden="true">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/90 border-2 border-black text-[10px] sm:text-xs font-black uppercase tracking-wide text-black">
                   <Shield size={12} /> Garansi revisi desain sampai puas
                 </span>
@@ -169,8 +168,7 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Bento Grid Mobile (tanpa animasi) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full auto-rows-fr mt-2">
+            <div className="reveal-stagger grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full auto-rows-fr mt-2">
               {featureCards.map((card) => (
                 <FeatureCard key={card.id} card={card} onSelect={handleCardClick} />
               ))}
@@ -179,110 +177,6 @@ export default function Hero() {
         </div>
       </section>
       {featureModal}
-      </>
-    )
-  }
-
-  // VERSI DESKTOP: Dengan animasi motion
-  return (
-    <>
-    <section
-      className="relative -mt-16 bg-primary-500 text-navy-900 overflow-hidden border-b-8 border-black px-4"
-      aria-labelledby="hero-heading"
-    >
-      <div className="pt-24 pb-16 flex items-center justify-center w-full">
-        <Container className="relative z-10 w-full flex flex-col items-center">
-          
-          {/* Header Hero */}
-          <div className="text-center max-w-3xl mb-8 space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: 'spring', stiffness: 200 }}
-              className="inline-block px-4 py-1.5 bg-black text-white border-2 border-white text-xs sm:text-sm font-mono font-black tracking-widest uppercase transform rotate-1 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
-              aria-hidden="true"
-            >
-              <span className="mr-2" aria-hidden="true">🔥</span>
-              Jasa Pembuatan Website & Desain Web Profesional
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ type: 'spring', stiffness: 150, delay: 0.1 }}
-              id="hero-heading"
-              className="font-display text-3xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none bg-black p-4 md:p-5 border-4 border-yellow-300 shadow-[8px_8px_0px_0px_rgba(255,255,0,1)] inline-block transform -rotate-1"
-            >
-              JASA PEMBUATAN <br />
-              <span className="text-yellow-300">WEBSITE PROFESIONAL</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0 }}
-              className="font-sans text-xs sm:text-base font-bold text-white bg-black/30 p-3 border-2 border-black max-w-xl mx-auto leading-relaxed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-            >
-              Jasa pembuatan website UMKM & perusahaan yang cepat, responsif, dan SEO-friendly. Mulai dari <span className="font-black text-yellow-300 underline decoration-4 decoration-black">Rp 999.000</span>.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center pt-1"
-            >
-              <Button
-                href="/kontak"
-                size="lg"
-                icon={<ArrowRight size={20} aria-hidden="true" />}
-                className="bg-white text-black border-4 border-black rounded-none shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all font-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black focus:ring-offset-primary-500"
-              >
-                Konsultasi Jasa Web Gratis
-              </Button>
-              <Button
-                href="/studycase"
-                variant="outline"
-                size="lg"
-                icon={<Play size={20} aria-hidden="true" />}
-                className="bg-yellow-300 text-black border-4 border-black rounded-none shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all font-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black focus:ring-offset-primary-500"
-              >
-                Lihat Studi Kasus
-              </Button>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-wrap items-center justify-center gap-2 pt-2"
-              aria-hidden="true"
-            >
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/90 border-2 border-black text-[10px] sm:text-xs font-black uppercase tracking-wide text-black">
-                <Shield size={12} /> Garansi revisi desain sampai puas
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/90 border-2 border-black text-[10px] sm:text-xs font-black uppercase tracking-wide text-black">
-                <CheckCircle size={12} /> Free maintenance 1 bulan
-              </span>
-            </motion.div>
-          </div>
-
-          {/* Bento Grid Interaktif Desktop */}
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full auto-rows-fr mt-2"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            {featureCards.map((card) => (
-              <FeatureCard key={card.id} card={card} animated onSelect={handleCardClick} />
-            ))}
-          </motion.div>
-        </Container>
-      </div>
-    </section>
-    {featureModal}
     </>
   )
 }

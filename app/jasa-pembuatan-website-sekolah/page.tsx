@@ -22,16 +22,17 @@ export default function SchoolServicePage() {
   }))
 
   const schemas = buildServiceSchemas({
-    title: data.title,
+    title: 'Jasa Pembuatan Website Sekolah di Bogor',
     description: data.description,
     slug: '/jasa-pembuatan-website-sekolah',
     pricing: data.pricing,
     faqs: data.faqs,
   })
 
-  const titleParts = data.title.split('Website Sekolah')
-  const mainTitle = titleParts[0] || ''
-  const highlight = 'Website Sekolah'
+// H1 eksplisit. Sebelumnya diturunkan dari data.title dengan string.split(),
+// yang membuat kata kunci "di Bogor" hilang dari heading.
+const mainTitle = 'Jasa Pembuatan Website'
+const highlight = 'Sekolah di Bogor'
 
   return (
     <>
@@ -213,7 +214,7 @@ export default function SchoolServicePage() {
             >
               Bangun Website <span className="text-yellow-300">Sekolahmu Sekarang!</span>
             </h2>
-            <p className="font-sans text-base font-bold text-white/90 max-w-xl mx-auto">
+            <p className="font-sans text-base font-bold text-white max-w-xl mx-auto">
               Dapatkan website sekolah modern untuk profil, berita, pengumuman, galeri kegiatan, hingga PPDB online.
             </p>
             <Button

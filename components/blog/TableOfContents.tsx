@@ -175,7 +175,7 @@ export default function TableOfContents({
                       aria-current={activeId === heading.id ? 'location' : undefined}
                     >
                       {heading.level === 3 && (
-                        <span className="text-navy-400 font-mono mr-1.5" aria-hidden="true">
+                        <span className="text-navy-500 font-mono mr-1.5" aria-hidden="true">
                           ▪
                         </span>
                       )}

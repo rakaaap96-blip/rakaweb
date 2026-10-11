@@ -1,6 +1,9 @@
 'use client'
 
 import { useEffect } from 'react'
+// global-error menggantikan root layout, jadi stylesheet global harus
+// diimpor ulang di sini agar halaman error tidak tampil tanpa gaya.
+import './globals.css'
 
 export default function GlobalError({
   error,

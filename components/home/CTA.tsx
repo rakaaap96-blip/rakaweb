@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'framer-motion'
+// Server Component — no client JS required.
 import Button from '@/components/ui/Button'
 import Container from '@/components/ui/Container'
 import { MessageCircle, ShieldCheck, Clock, CheckCircle } from 'lucide-react'
@@ -34,11 +32,8 @@ export default function CTA() {
       aria-labelledby="cta-heading"
     >
       <Container>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center max-w-3xl mx-auto space-y-6"
+        <div
+          className="reveal text-center max-w-3xl mx-auto space-y-6"
         >
           <div
             className="inline-block px-4 py-2 bg-black text-white border-2 border-black text-sm font-mono font-black uppercase tracking-wider transform rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
@@ -54,9 +49,9 @@ export default function CTA() {
             Siap Meningkatkan <span className="text-yellow-300">Bisnis Anda?</span>
           </h2>
 
-          <p className="font-sans text-base md:text-lg font-bold text-white/90 max-w-2xl mx-auto leading-relaxed">
+          <p className="font-sans text-base md:text-lg font-bold text-white max-w-2xl mx-auto leading-relaxed">
             Website profesional selesai dalam 2-4 minggu, mulai dari{' '}
-            <span className="text-yellow-300 font-black">Rp 999.000</span> untuk UMKM.
+            <span className="bg-black px-1.5 text-yellow-300 font-black">Rp 999.000</span> untuk UMKM.
             Konsultasi gratis dulu — jika tidak cocok, tidak ada kewajiban sama sekali.
           </p>
 
@@ -65,7 +60,7 @@ export default function CTA() {
               href={WA_LINK}
               size="lg"
               icon={<MessageCircle size={20} aria-hidden="true" />}
-              className="bg-green-500 text-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-green-400 hover:text-black hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all font-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black focus:ring-offset-primary-500"
+              className="bg-green-700 text-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-green-500 hover:text-navy-900 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all font-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black focus:ring-offset-primary-500"
             >
               Konsultasi Gratis via WhatsApp
             </Button>
@@ -91,10 +86,10 @@ export default function CTA() {
             ))}
           </ul>
 
-          <p className="font-mono font-black text-xs uppercase tracking-wider text-white pt-2 border-t-2 border-white/30 max-w-xl mx-auto" aria-live="polite">
+          <p className="font-mono font-black text-xs uppercase tracking-wider text-white pt-2 border-t-2 border-white/30 max-w-xl mx-auto">
             Setiap proyek kami kerjakan satu per satu secara fokus — tidak ada template instan.
           </p>
-        </motion.div>
+        </div>
       </Container>
     </section>
   )

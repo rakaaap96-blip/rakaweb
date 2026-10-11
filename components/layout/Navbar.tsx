@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, ArrowUpRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
+import { locations } from '@/lib/locations';
 
 const navLinks = [
   { name: 'Beranda', href: '/' },
@@ -18,6 +19,14 @@ const navLinks = [
       { name: 'Website Bisnis', href: '/jasa-pembuatan-website-company-profile' },
       { name: 'Website Sekolah', href: '/jasa-pembuatan-website-sekolah' },
     ],
+  },
+  {
+    name: 'Lokasi',
+    href: '#',
+    dropdown: locations.map((location) => ({
+      name: `Website ${location.city}`,
+      href: `/jasa-pembuatan-website/${location.slug}`,
+    })),
   },
   { name: 'Study Case', href: '/studycase' },
   { name: 'Blog', href: '/blog' },
@@ -132,6 +141,31 @@ export default function Navbar() {
     }
   }, [isOpen]);
 
+  // Kunci scroll halaman selama mobile menu terbuka (html & body, karena
+  // container scroll sebenarnya ada di root). Tidak ada scrollbar yang
+  // bergeser karena scrollbar dokumen memang disembunyikan.
+  useEffect(() => {
+    if (!isOpen) return;
+    const html = document.documentElement;
+    const prevHtml = html.style.overflow;
+    const prevBody = document.body.style.overflow;
+    html.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    return () => {
+      html.style.overflow = prevHtml;
+      document.body.style.overflow = prevBody;
+    };
+  }, [isOpen]);
+
+  // Tutup menu saat layar diperbesar ke desktop supaya scroll tidak tetap terkunci.
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 768) setIsOpen(false);
+    };
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
   return (
     <nav
       className={`
@@ -141,9 +175,14 @@ export default function Navbar() {
       aria-label="Navigasi utama"
     >
       <Container>
-        <div className={`flex items-center justify-between transition-all duration-150 ${scrolled ? 'py-3' : 'py-2'}`}>
-          {/* Logo */}
-          <div className="relative z-10 flex items-center border-2 border-transparent ml-2">
+        <div className="flex h-[var(--nav-h)] items-center justify-between">
+          {/* Logo — klik kembali ke beranda */}
+          <Link
+            href="/"
+            prefetch={false}
+            aria-label="RakaWeb — kembali ke beranda"
+            className="relative z-10 flex items-center border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+          >
             <div className="relative h-10 w-10 md:h-12 md:w-12 overflow-hidden">
               <Image
                 src="/images/LogoRakaweb.png"
@@ -154,7 +193,7 @@ export default function Navbar() {
                 priority
               />
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-1">
@@ -185,7 +224,7 @@ export default function Navbar() {
                     </button>
                     {/* Dropdown menu */}
                     <div
-                      className={`absolute top-full left-0 mt-0 w-80 bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,1)] rounded-none z-50 p-3 transition-all duration-150 ${
+                      className={`absolute top-full left-0 mt-0 w-80 bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rounded-none z-50 p-3 transition-all duration-150 ${
                         activeDropdown === link.name ? 'visible opacity-100' : 'invisible opacity-0'
                       }`}
                       role="menu"
@@ -199,9 +238,10 @@ export default function Navbar() {
                       </div>
                       <div className="flex flex-col gap-2">
                         {link.dropdown.map((item) => (
-                          <Link
+<Link
                             key={item.name}
                             href={item.href}
+                            prefetch={false}
                             className="group flex items-center justify-between bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] px-3 py-2 font-bold text-sm text-black transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-300 rounded-none focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
                             role="menuitem"
                             aria-current={pathname === item.href ? 'page' : undefined}
@@ -216,6 +256,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href={link.href}
+                    prefetch={false}
                     className={`block px-2 py-1 font-sans font-black text-sm uppercase tracking-tight rounded-none border-2 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
                       pathname === link.href
                         ? 'bg-black text-white border-black shadow-none'
@@ -245,42 +286,54 @@ export default function Navbar() {
           <button
             ref={mobileMenuButtonRef}
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-black border-2 border-transparent hover:bg-white hover:border-black p-1 rounded-none active:translate-x-0.5 active:translate-y-0.5 shadow-none hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+            className="md:hidden flex h-11 w-11 items-center justify-center text-black border-2 border-transparent hover:bg-white hover:border-black rounded-none active:translate-x-0.5 active:translate-y-0.5 shadow-none hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
             aria-label={isOpen ? 'Tutup menu' : 'Buka menu'}
             aria-expanded={isOpen}
+            aria-controls="mobile-menu"
           >
-            {isOpen ? <X size={18} strokeWidth={3} aria-hidden="true" /> : <Menu size={18} strokeWidth={3} aria-hidden="true" />}
+            {isOpen ? <X size={22} strokeWidth={3} aria-hidden="true" /> : <Menu size={22} strokeWidth={3} aria-hidden="true" />}
           </button>
         </div>
       </Container>
 
-      {/* Mobile Menu - dengan perbaikan top-17 dan inert boolean */}
+      {/* Backdrop: tap untuk menutup, mengisolasi menu dari konten di belakangnya */}
       <div
+        onClick={() => setIsOpen(false)}
+        className={`md:hidden fixed left-0 right-0 bottom-0 top-[var(--nav-h)] z-30 bg-black/40 transition-opacity duration-200 ${
+          isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+        aria-hidden="true"
+      />
+
+      {/* Mobile Menu — scrollable agar daftar panjang tetap terjangkau */}
+      <div
+        id="mobile-menu"
         ref={mobileMenuRef}
-        className={`md:hidden fixed top-17 left-0 w-full bg-white border-t-4 border-black shadow-[0_6px_0px_0px_rgba(0,0,0,1)] py-4 transition-transform duration-300 ease-in-out z-40 ${
-          isOpen ? 'transform translate-x-0' : 'transform -translate-x-full'
+        className={`md:hidden fixed top-[var(--nav-h)] left-0 w-full bg-white border-t-4 border-black shadow-[0_6px_0px_0px_rgba(0,0,0,1)] max-h-[calc(100dvh_-_var(--nav-h))] overflow-y-auto overscroll-contain py-4 z-40 transition-transform duration-300 ease-in-out ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         aria-hidden={!isOpen}
         inert={!isOpen}
       >
-        <div className="px-4 space-y-4">
+        <Container className="space-y-3">
           {navLinks.map((link) => (
             <div key={link.name} className="border-b-2 border-dashed border-stone-200 pb-3 last:border-none last:pb-0">
               {link.dropdown ? (
                 <div className="space-y-2">
-                  <div className="font-sans font-black text-sm uppercase tracking-tight text-stone-500 px-2">
+                  <div className="font-sans font-black text-sm uppercase tracking-tight text-stone-500 px-1">
                     {link.name}
                   </div>
-                  <div className="pl-2 space-y-2">
+                  <div className="space-y-2">
                     {link.dropdown.map((item) => (
                       <Link
                         key={item.name}
                         href={item.href}
-                        className="flex items-center justify-between px-3 py-2 font-sans font-bold text-sm text-black bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rounded-none hover:bg-yellow-300 transition-all focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+                        prefetch={false}
+                        className="flex items-center justify-between px-3 py-3 font-sans font-bold text-sm text-black bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rounded-none hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
                         aria-current={pathname === item.href ? 'page' : undefined}
                       >
-                        <span>{item.name}</span>
-                        <ArrowUpRight size={16} strokeWidth={2} aria-hidden="true" />
+                        <span className="truncate">{item.name}</span>
+                        <ArrowUpRight size={16} strokeWidth={2} aria-hidden="true" className="shrink-0" />
                       </Link>
                     ))}
                   </div>
@@ -288,8 +341,11 @@ export default function Navbar() {
               ) : (
                 <Link
                   href={link.href}
-                  className={`block px-2 py-1 font-sans font-black text-base uppercase tracking-tight focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
-                    pathname === link.href ? 'text-primary-500 underline decoration-4 underline-offset-4' : 'text-black'
+                  prefetch={false}
+                  className={`block w-full px-3 py-3 font-sans font-black text-base uppercase tracking-tight border-2 rounded-none transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+                    pathname === link.href
+                      ? 'bg-black text-white border-black'
+                      : 'text-black border-transparent hover:border-black hover:bg-yellow-300'
                   }`}
                   aria-current={pathname === link.href ? 'page' : undefined}
                 >
@@ -303,7 +359,7 @@ export default function Navbar() {
               Konsultasi Gratis
             </Button>
           </div>
-        </div>
+        </Container>
       </div>
     </nav>
   );

@@ -1,7 +1,5 @@
-'use client'
-
+// Server Component — no client JS required.
 import { ReactNode } from 'react'
-import { motion } from 'framer-motion'
 import Container from '@/components/ui/Container'
 
 interface BlogLayoutProps {
@@ -15,13 +13,11 @@ export default function BlogLayout({ children, title, description }: BlogLayoutP
     <>
       {/* HEADER SECTION */}
       <section
-        className="pt-32 pb-16 bg-primary-500 text-navy-900 border-b-8 border-black px-4"
+        className="pt-32 pb-16 bg-primary-500 text-navy-900 border-b-8 border-black"
         aria-labelledby="blog-header-title"
       >
         <Container>
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
             className="max-w-3xl mx-auto text-center space-y-4"
           >
             <div>
@@ -36,7 +32,7 @@ export default function BlogLayout({ children, title, description }: BlogLayoutP
             <p className="font-sans text-sm sm:text-base font-bold text-white bg-black/20 p-3 border-2 border-black max-w-xl mx-auto leading-relaxed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               {description}
             </p>
-          </motion.div>
+          </div>
         </Container>
       </section>
 

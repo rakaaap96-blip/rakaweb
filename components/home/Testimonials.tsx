@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'framer-motion'
+// Server Component — no client JS required.
 import { Star, ArrowUpRight, BadgeCheck } from 'lucide-react'
 import Image from 'next/image'
 import Container from '@/components/ui/Container'
@@ -74,15 +72,10 @@ function highlightText(text: string, highlight: string) {
   )
 }
 
-function TestimonialCard({ item, index }: { item: typeof testimonials[0]; index: number }) {
+function TestimonialCard({ item }: { item: typeof testimonials[0] }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.08 }}
-      whileHover={{ translateY: -4, translateX: -4, transition: { duration: 0.1 } }}
-      className={`relative p-4 bg-white text-navy-900 border-4 border-black rounded-none shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all flex flex-col justify-between ${item.spanClass}`}
+    <div
+      className={`relative p-4 bg-white text-navy-900 border-4 border-black rounded-none shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all flex flex-col justify-between ${item.spanClass}`}
       role="article"
     >
       <div>
@@ -130,14 +123,14 @@ function TestimonialCard({ item, index }: { item: typeof testimonials[0]; index:
           </p>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
 export default function Testimonials() {
   return (
     <section
-      className="relative w-full py-16 bg-primary-500 overflow-hidden border-b-8 border-black px-4"
+      className="relative w-full py-16 bg-primary-500 overflow-hidden border-b-8 border-black"
       aria-labelledby="testimonials-heading"
     >
       <Container>
@@ -175,9 +168,9 @@ export default function Testimonials() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full auto-rows-fr">
-            {testimonials.map((item, index) => (
-              <TestimonialCard key={item.id} item={item} index={index} />
+          <div className="reveal-stagger grid grid-cols-1 md:grid-cols-4 gap-4 w-full auto-rows-fr">
+            {testimonials.map((item) => (
+              <TestimonialCard key={item.id} item={item} />
             ))}
           </div>
         </div>

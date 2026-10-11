@@ -21,16 +21,17 @@ export default function UMKMServicePage() {
   }))
 
   const schemas = buildServiceSchemas({
-    title: data.title,
+    title: 'Jasa Pembuatan Website UMKM di Bogor',
     description: data.description,
     slug: '/jasa-pembuatan-website-umkm',
     pricing: data.pricing,
     faqs: data.faqs,
   })
 
-  const titleParts = data.title.split('Website UMKM')
-  const mainTitle = titleParts[0] || ''
-  const highlight = 'Website UMKM'
+// H1 eksplisit. Sebelumnya diturunkan dari data.title dengan string.split(),
+// yang membuat kata kunci "di Bogor" hilang dari heading.
+const mainTitle = 'Jasa Pembuatan Website'
+const highlight = 'UMKM di Bogor'
 
   return (
     <>
@@ -216,7 +217,7 @@ export default function UMKMServicePage() {
             >
               Siap Memiliki Website UMKM <span className="text-yellow-300">Profesional?</span>
             </h2>
-            <p className="font-sans text-base font-bold text-white/90 max-w-xl mx-auto">
+            <p className="font-sans text-base font-bold text-white max-w-xl mx-auto">
               Konsultasikan kebutuhan Anda secara gratis dengan tim ahli kami. Kami siap membantu mewujudkan website impian.
             </p>
             <Button

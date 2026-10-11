@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'framer-motion'
+// Server Component — no client JS required.
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
@@ -44,11 +42,8 @@ export default function StudyCase() {
     >
       <Container>
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+        <div
+          className="reveal text-center max-w-3xl mx-auto mb-16 space-y-4"
         >
           <div
             className="inline-block px-4 py-2 bg-black text-white border-2 border-black text-sm font-mono font-black uppercase tracking-wider rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
@@ -68,19 +63,12 @@ export default function StudyCase() {
             Pelajari bagaimana proses riset, strategi, dan desain membantu
             menyelesaikan masalah bisnis serta meningkatkan pengalaman pengguna.
           </p>
-        </motion.div>
+        </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {studyCases.map((item, idx) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="h-full"
-            >
+        <div className="reveal-stagger grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {studyCases.map((item) => (
+            <div key={item.id} className="h-full">
               <Link
                 href={item.href}
                 className="group block h-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black focus:ring-offset-white"
@@ -93,7 +81,7 @@ export default function StudyCase() {
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      priority={idx === 0}
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-primary-500/90 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                       <div className="inline-flex items-center gap-2 bg-yellow-300 border-2 border-black px-5 py-3 font-mono font-black uppercase text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
@@ -118,7 +106,7 @@ export default function StudyCase() {
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </Container>
